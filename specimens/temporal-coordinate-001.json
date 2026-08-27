@@ -1,0 +1,317 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "temporal-coordinate-001",
+  "source_refs": [
+    "owner-pastethoughts-2026-08-27",
+    "daily-slice-moving-temporal-braid",
+    "daily-slice-edge-birthdays"
+  ],
+  "occurrences": [
+    {
+      "id": "breadcrumb",
+      "occurred_at": "2026-06-09T09:00:00Z",
+      "locus_id": "archive-room",
+      "source_refs": ["daily-slice-moving-temporal-braid"]
+    },
+    {
+      "id": "artifact",
+      "occurred_at": "2026-06-10T10:00:00Z",
+      "locus_id": "archive-room",
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "present-note",
+      "occurred_at": "2026-06-15T12:00:00Z",
+      "locus_id": "archive-room",
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "later-discovery",
+      "occurred_at": "2026-08-01T08:00:00Z",
+      "locus_id": "lab",
+      "source_refs": ["daily-slice-edge-birthdays"]
+    },
+    {
+      "id": "sealed-future",
+      "occurred_at": "2026-09-01T08:00:00Z",
+      "locus_id": "lab",
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "breadcrumb-lumi",
+      "occurrence_id": "breadcrumb",
+      "observer": "lumi",
+      "layer": "public",
+      "available_from": "2026-06-09T10:00:00Z",
+      "evidence_refs": ["daily-slice-moving-temporal-braid"]
+    },
+    {
+      "id": "breadcrumb-riqor",
+      "occurrence_id": "breadcrumb",
+      "observer": "riqor",
+      "layer": "public",
+      "available_from": "2026-06-09T10:00:00Z",
+      "evidence_refs": ["daily-slice-moving-temporal-braid"]
+    },
+    {
+      "id": "artifact-lumi",
+      "occurrence_id": "artifact",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-06-10T13:00:00Z",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "artifact-riqor",
+      "occurrence_id": "artifact",
+      "observer": "riqor",
+      "layer": "public",
+      "available_from": "2026-08-02T09:00:00Z",
+      "evidence_refs": ["daily-slice-edge-birthdays"]
+    },
+    {
+      "id": "note-lumi",
+      "occurrence_id": "present-note",
+      "observer": "lumi",
+      "layer": "public",
+      "available_from": "2026-06-15T12:00:00Z",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "discovery-lumi",
+      "occurrence_id": "later-discovery",
+      "observer": "lumi",
+      "layer": "public",
+      "available_from": "2026-08-01T09:00:00Z",
+      "evidence_refs": ["daily-slice-edge-birthdays"]
+    },
+    {
+      "id": "sealed-lumi",
+      "occurrence_id": "sealed-future",
+      "observer": "lumi",
+      "layer": "public",
+      "available_from": "2026-09-02T09:00:00Z",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "expectations": [
+    {
+      "id": "expected-rain",
+      "observer": "lumi",
+      "layer": "private",
+      "formed_at": "2026-06-10T09:00:00Z",
+      "available_from": "2026-06-10T09:00:00Z",
+      "target_at": "2026-06-11T09:00:00Z",
+      "statement": "Rain may arrive tomorrow.",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "edges": [
+    {
+      "id": "route-original",
+      "from": "breadcrumb",
+      "to": "artifact",
+      "edge_class": "causal",
+      "relation": "original-route",
+      "first_perceived_at": "2026-06-14T10:00:00Z",
+      "discovery_trace": ["daily-slice-edge-birthdays"],
+      "assessments": [
+        {
+          "assessed_at": "2026-06-14T11:00:00Z",
+          "status": "admitted",
+          "confidence": 0.8,
+          "evidence_refs": ["daily-slice-edge-birthdays"],
+          "reason": "The original route is supported at the June cut."
+        },
+        {
+          "assessed_at": "2026-08-20T11:00:00Z",
+          "status": "refused",
+          "confidence": 0.95,
+          "evidence_refs": ["owner-pastethoughts-2026-08-27"],
+          "reason": "The rupture remains recorded; the old route does not reopen."
+        }
+      ]
+    },
+    {
+      "id": "relevance-breadcrumb-artifact",
+      "from": "breadcrumb",
+      "to": "artifact",
+      "edge_class": "relevance",
+      "relation": "helps-interpret",
+      "first_perceived_at": "2026-08-21T10:00:00Z",
+      "discovery_trace": ["owner-pastethoughts-2026-08-27"],
+      "assessments": [
+        {
+          "assessed_at": "2026-08-21T11:00:00Z",
+          "status": "admitted",
+          "confidence": 0.9,
+          "evidence_refs": ["owner-pastethoughts-2026-08-27"],
+          "reason": "Later research makes the old breadcrumb newly useful."
+        }
+      ]
+    },
+    {
+      "id": "route-reconstituted",
+      "from": "breadcrumb",
+      "to": "present-note",
+      "edge_class": "causal",
+      "relation": "new-route-after-rupture",
+      "first_perceived_at": "2026-08-22T10:00:00Z",
+      "discovery_trace": ["owner-pastethoughts-2026-08-27"],
+      "assessments": [
+        {
+          "assessed_at": "2026-08-22T11:00:00Z",
+          "status": "admitted",
+          "confidence": 0.85,
+          "evidence_refs": ["owner-pastethoughts-2026-08-27"],
+          "reason": "A separately identified path preserves reachability."
+        }
+      ]
+    }
+  ],
+  "edge_exposures": [
+    {
+      "id": "route-original-lumi",
+      "edge_id": "route-original",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-06-14T10:00:00Z",
+      "evidence_refs": ["daily-slice-edge-birthdays"]
+    },
+    {
+      "id": "relevance-lumi",
+      "edge_id": "relevance-breadcrumb-artifact",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-08-21T10:00:00Z",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "route-reconstituted-lumi",
+      "edge_id": "route-reconstituted",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-08-22T10:00:00Z",
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "location_decoders": [
+    {
+      "id": "archive-display-v1",
+      "source_crs": "EPSG:4326",
+      "target_crs": "LOCAL:ARCHIVE-DISPLAY",
+      "operation": "declared-operation:archive-display-v1",
+      "area_of_use": "archive-room",
+      "accuracy_m": 1.0,
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "location_claims": [
+    {
+      "id": "artifact-location",
+      "occurrence_id": "artifact",
+      "locus_id": "archive-room",
+      "decoder_id": "archive-display-v1",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-06-10T13:00:00Z",
+      "coordinates": [-73.0, 40.0],
+      "coordinate_crs": "EPSG:4326",
+      "uncertainty_m": 2.0,
+      "evidence_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "gates": [
+    {
+      "id": "artifact-visible",
+      "op": "all",
+      "conditions": [
+        {"kind": "occurrence_visible", "occurrence_id": "artifact"}
+      ],
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "original-admitted",
+      "op": "all",
+      "conditions": [
+        {"kind": "edge_status", "edge_id": "route-original", "status": "admitted"}
+      ],
+      "source_refs": ["daily-slice-edge-birthdays"]
+    },
+    {
+      "id": "original-refused",
+      "op": "all",
+      "conditions": [
+        {"kind": "edge_status", "edge_id": "route-original", "status": "refused"}
+      ],
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    },
+    {
+      "id": "reconstituted-admitted",
+      "op": "all",
+      "conditions": [
+        {"kind": "edge_status", "edge_id": "route-reconstituted", "status": "admitted"}
+      ],
+      "source_refs": ["owner-pastethoughts-2026-08-27"]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "june-10",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-06-10T12:00:00Z",
+      "known_at": "2026-06-10T11:00:00Z",
+      "audience_layers": ["public", "private"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": ["breadcrumb"],
+      "gate_ids": ["artifact-visible", "original-admitted"]
+    },
+    {
+      "id": "june-15",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-06-15T12:00:00Z",
+      "known_at": "2026-06-15T12:00:00Z",
+      "audience_layers": ["public", "private"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": ["breadcrumb"],
+      "gate_ids": ["artifact-visible", "original-admitted"]
+    },
+    {
+      "id": "august-reconstruction",
+      "observer": "lumi",
+      "mode": "reconstruction",
+      "focus_at": "2026-06-10T12:00:00Z",
+      "known_at": "2026-08-27T12:00:00Z",
+      "audience_layers": ["public", "private"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": ["breadcrumb"],
+      "gate_ids": ["artifact-visible", "original-refused"]
+    },
+    {
+      "id": "august-lumi",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-08-27T12:00:00Z",
+      "known_at": "2026-08-27T12:00:00Z",
+      "audience_layers": ["public", "private"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": ["breadcrumb"],
+      "gate_ids": ["original-refused", "reconstituted-admitted"]
+    },
+    {
+      "id": "june-09-riqor",
+      "observer": "riqor",
+      "mode": "historical",
+      "focus_at": "2026-06-09T12:00:00Z",
+      "known_at": "2026-06-09T12:00:00Z",
+      "audience_layers": ["public"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": ["breadcrumb"],
+      "gate_ids": ["artifact-visible"]
+    }
+  ]
+}

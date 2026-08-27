@@ -1,0 +1,28 @@
+{
+  "schema": "3rdi.glyph-lab/v0",
+  "carrier": "022100",
+  "decoders": [
+    {
+      "id": "standard-a440",
+      "open_midi": [40, 45, 50, 55, 59, 64],
+      "reference_hz": 440.0,
+      "temperament": "12-TET",
+      "constitution": "EADGBE / 12-TET / A440"
+    },
+    {
+      "id": "cgcegd-a444",
+      "open_midi": [36, 43, 48, 52, 55, 62],
+      "reference_hz": 444.0,
+      "temperament": "12-TET",
+      "constitution": "CGCEGD / 12-TET / A444"
+    }
+  ],
+  "expected_pitch_names": {
+    "standard-a440": ["E", "B", "E", "G#", "B", "E"],
+    "cgcegd-a444": ["C", "A", "D", "F", "G", "D"]
+  },
+  "source_refs": [
+    "daily-slice-022100-secret-key",
+    "daily-slice-022100-key-scales-world"
+  ]
+}

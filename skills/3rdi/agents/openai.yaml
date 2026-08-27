@@ -1,0 +1,7 @@
+interface:
+  display_name: "3rdi"
+  short_description: "Compile observer-local projection receipts"
+  default_prompt: "Use $3rdi to compile what was lawfully visible at this observer-local cut."
+
+policy:
+  allow_implicit_invocation: true
