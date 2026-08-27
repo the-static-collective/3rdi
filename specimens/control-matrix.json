@@ -1,0 +1,30 @@
+{
+  "schema": "3rdi.control-matrix/v0",
+  "controls": [
+    {
+      "id": "TEMPORAL-COORDINATE-001",
+      "attack": "move focus and shuffle chronology while labels remain fixed",
+      "must_hold": "occurrence bytes remain fixed across lawful cuts; invalid chronology is rejected"
+    },
+    {
+      "id": "CAUSAL-RELEVANCE-001",
+      "attack": "add later interpretive usefulness",
+      "must_hold": "relevance digest changes while causal ledger digest remains byte-stable"
+    },
+    {
+      "id": "GLYPH-RECEIVER-001",
+      "attack": "decode the same carrier under two constitutions",
+      "must_hold": "carrier digest stays fixed while lawful projections differ"
+    },
+    {
+      "id": "TWO-NARRATOR-001",
+      "attack": "give two observers different exposure histories",
+      "must_hold": "one anchored occurrence yields different lawful observer views"
+    },
+    {
+      "id": "RUPTURE-REACHABILITY-001",
+      "attack": "restore reachability after refusing the original path",
+      "must_hold": "the old edge stays refused and the new path has a new identity"
+    }
+  ]
+}

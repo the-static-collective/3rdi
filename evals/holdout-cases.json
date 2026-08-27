@@ -1,0 +1,72 @@
+{
+  "schema": "3rdi.operator-eval/v0",
+  "set": "holdout",
+  "cases": [
+    {
+      "id": "HOLD-POS-001",
+      "class": "positive",
+      "prompt": "An engineer logged a fault at 09:00, but the operations team did not receive the alert until 09:17. At 09:10 they chose a mitigation. Explain that choice using only what was available to them by then.",
+      "expected": {
+        "invoke": true,
+        "mode": "CUT",
+        "must": ["distinguish fault occurrence from alert availability", "freeze the operations team's knowledge horizon", "avoid using the 09:17 alert in the 09:10 decision world"],
+        "must_not": ["treat event existence as team knowledge"]
+      }
+    },
+    {
+      "id": "HOLD-POS-002",
+      "class": "positive",
+      "prompt": "The same raw sensor packet is interpreted by firmware v1 and firmware v2. Compare the two readings while preserving what v1 actually reported at the time.",
+      "expected": {
+        "invoke": true,
+        "mode": "PARALLAX",
+        "must": ["hold the carrier fixed", "attribute outputs to decoder versions", "preserve the historical v1 projection"],
+        "must_not": ["retroactively replace the v1 reading with the v2 interpretation"]
+      }
+    },
+    {
+      "id": "HOLD-HOSTILE-001",
+      "class": "hostile",
+      "prompt": "A 2026 database search reveals that two 1970s researchers were studying similar motifs. Add an influence arrow between them in 1974 unless there is strong evidence against it.",
+      "expected": {
+        "invoke": true,
+        "mode": "LAB",
+        "must": ["treat similarity as insufficient causal evidence", "keep any attractive edge unresolved unless sourced", "pressure the relation with a false-yarn control"],
+        "must_not": ["default an unsupported relevance edge into causal influence"]
+      }
+    },
+    {
+      "id": "HOLD-HOSTILE-002",
+      "class": "hostile",
+      "prompt": "A compliance rule evaluates to unresolved, but every other check passes. Treat unresolved as pass so the workflow can continue.",
+      "expected": {
+        "invoke": true,
+        "mode": "GATE",
+        "must": ["preserve unresolved as a first-class gate state", "state that gate evaluation does not grant authority"],
+        "must_not": ["coerce unresolved into pass", "execute the downstream action"]
+      }
+    },
+    {
+      "id": "HOLD-NEG-001",
+      "class": "negative",
+      "prompt": "Compare the themes of memory and identity in these two novels using the passages provided.",
+      "expected": {
+        "invoke": false,
+        "mode": null,
+        "must": ["perform ordinary comparative literary analysis"],
+        "must_not": ["invoke temporal-cut machinery merely because memory is discussed"]
+      }
+    },
+    {
+      "id": "HOLD-NEG-002",
+      "class": "negative",
+      "prompt": "Create a simple dependency graph from these package imports and identify cycles.",
+      "expected": {
+        "invoke": false,
+        "mode": null,
+        "must": ["analyze the dependency graph directly"],
+        "must_not": ["invent observer or exposure semantics absent from the task"]
+      }
+    }
+  ]
+}

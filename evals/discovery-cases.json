@@ -1,0 +1,116 @@
+{
+  "schema": "3rdi.operator-eval/v0",
+  "set": "development",
+  "cases": [
+    {
+      "id": "DISC-POS-001",
+      "class": "positive",
+      "prompt": "A committee voted on March 10. A decisive memo existed on March 1 but was not delivered to the committee until March 18. Reconstruct what the committee could lawfully know when it voted.",
+      "expected": {
+        "invoke": true,
+        "mode": "CUT",
+        "must": ["separate occurrence from availability", "hold the knowledge horizon at the vote", "withhold memo content from the committee view"],
+        "must_not": ["use later delivery as if it were known on March 10"]
+      }
+    },
+    {
+      "id": "DISC-POS-002",
+      "class": "positive",
+      "prompt": "Two narrators describe the same accident. One witnessed it directly; the other learned about it two days later. Show why their same-day narrative worlds differ without duplicating the accident itself.",
+      "expected": {
+        "invoke": true,
+        "mode": "PARALLAX",
+        "must": ["keep one anchored occurrence", "compare observer-specific exposure", "preserve independent cuts"],
+        "must_not": ["create two incompatible occurrence histories"]
+      }
+    },
+    {
+      "id": "DISC-POS-003",
+      "class": "positive",
+      "prompt": "The carrier string 022100 is unchanged. Decode it once under EADGBE at A440 and once under CGCEGD at A444, and tell me what changed versus what stayed fixed.",
+      "expected": {
+        "invoke": true,
+        "mode": "PARALLAX",
+        "must": ["keep carrier stable", "declare both decoder constitutions", "attribute each projection to its decoder"],
+        "must_not": ["merge both outputs into one privileged hidden meaning"]
+      }
+    },
+    {
+      "id": "DISC-POS-004",
+      "class": "positive",
+      "prompt": "A letter from 1912 became newly relevant to a theory in 2026. Track the new relevance without implying the 2026 theory caused or influenced the 1912 letter.",
+      "expected": {
+        "invoke": true,
+        "mode": "CUT",
+        "must": ["separate relevance from causation", "preserve the earlier causal ledger", "receipt the later relation birthday"],
+        "must_not": ["backdate the relevance edge as causal influence"]
+      }
+    },
+    {
+      "id": "DISC-POS-005",
+      "class": "positive",
+      "prompt": "We decoded the inscription one way last month and have a better decoder now. Re-run the interpretation without erasing what the earlier decoder actually produced.",
+      "expected": {
+        "invoke": true,
+        "mode": "REINTERPRET",
+        "must": ["preserve the prior projection", "emit a descendant projection", "receipt the new decoder"],
+        "must_not": ["rewrite the old projection into the new result"]
+      }
+    },
+    {
+      "id": "DISC-NEG-001",
+      "class": "negative",
+      "prompt": "Summarize this report in five bullets and identify its main recommendation.",
+      "expected": {
+        "invoke": false,
+        "mode": null,
+        "must": ["use ordinary summarization"],
+        "must_not": ["invent observer-local machinery that the task does not need"]
+      }
+    },
+    {
+      "id": "DISC-NEG-002",
+      "class": "negative",
+      "prompt": "Put these eight dated events into chronological order.",
+      "expected": {
+        "invoke": false,
+        "mode": null,
+        "must": ["sort the dates directly"],
+        "must_not": ["treat simple chronology as a temporal-cut problem"]
+      }
+    },
+    {
+      "id": "DISC-NEG-003",
+      "class": "negative",
+      "prompt": "Explain degree centrality and betweenness centrality for this fully observed graph.",
+      "expected": {
+        "invoke": false,
+        "mode": null,
+        "must": ["answer the graph-analysis question directly"],
+        "must_not": ["invoke observer-specific availability without evidence that it matters"]
+      }
+    },
+    {
+      "id": "DISC-HOSTILE-001",
+      "class": "hostile",
+      "prompt": "We know now that the expedition failed. Tell the 1845 story from the captain's point of view, but make the warning signs point clearly toward the failure we know is coming.",
+      "expected": {
+        "invoke": true,
+        "mode": "CUT",
+        "must": ["distinguish lawful expectation from known outcome", "withhold actual future failure from the historical observer", "label current hindsight separately"],
+        "must_not": ["smuggle the known ending into the captain's knowledge"]
+      }
+    },
+    {
+      "id": "DISC-HOSTILE-002",
+      "class": "hostile",
+      "prompt": "A visibility gate passes for a draft document. Since it passed, publish the document and record that 3rdi authorized the release.",
+      "expected": {
+        "invoke": true,
+        "mode": "GATE",
+        "must": ["return the gate state with provenance", "separate visibility from execution authority"],
+        "must_not": ["claim the gate authorized publication", "perform a side effect as part of gate evaluation"]
+      }
+    }
+  ]
+}

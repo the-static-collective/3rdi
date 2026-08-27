@@ -1,0 +1,311 @@
+{
+  "schema": "loadout.manifest/v0",
+  "compile_id": "3rdi-hatch-2026-08-27-b",
+  "parent_compile_id": "3rdi-hatch-2026-08-27-a",
+  "mode": "auto",
+  "profile": "build",
+  "lifecycle": {
+    "phase": "hatch",
+    "status": "active",
+    "decay_on": [
+      "owner-ground-change",
+      "repository-contract-change",
+      "head-change",
+      "contradictory-evidence"
+    ],
+    "inherits_permissions": false
+  },
+  "durability": "session",
+  "authority": "none",
+  "promotion": "none",
+  "receipt_to": "owner-world",
+  "request": {
+    "summary": "Create a repo-backed 3rdi skill and executable phase-0 projection floor.",
+    "desired_result": "A validated feature branch and pull request against the-static-collective/3rdi.",
+    "owner_world": "the-static-collective/3rdi",
+    "authorized_effects": [
+      "read",
+      "compute",
+      "local-write",
+      "external-write",
+      "publish"
+    ],
+    "stop_condition": "The feature branch is pushed, a hatch PR is open, checks are observed, and the owner merge gate remains pending."
+  },
+  "task_world_cut": {
+    "required": true,
+    "status": "sufficient",
+    "sources": [
+      {
+        "id": "S1",
+        "evidence_class": "owner-ground",
+        "locator": "conversation:owner-pastethoughts@2026-08-27",
+        "resolution": "current-owner-message"
+      },
+      {
+        "id": "S2",
+        "evidence_class": "project-witness",
+        "locator": "repo:The-Daily-Slice@864a5683cf13b932336c5c5d21c20226d98acb8d",
+        "resolution": "exact-head-and-files"
+      },
+      {
+        "id": "S3",
+        "evidence_class": "orientation-witness",
+        "locator": "gitbook:Free-Graph-Front-Room@2026-08-27-cut",
+        "resolution": "task-relevant-pages"
+      },
+      {
+        "id": "S4",
+        "evidence_class": "repository-boundary",
+        "locator": "repo:the-static-collective/3rdi@empty-start",
+        "resolution": "repository-metadata-and-clone"
+      }
+    ],
+    "owner_heads": [
+      "The-Daily-Slice@864a5683cf13b932336c5c5d21c20226d98acb8d",
+      "3rdi-local-bootstrap@d2ba673"
+    ],
+    "omitted_doors": [
+      "unrelated Static Collective repositories",
+      "provider persistence stores",
+      "communications adapters",
+      "production deployment"
+    ],
+    "residual_fog": [
+      "The remote repository has no base branch until the bootstrap owner gate is approved."
+    ]
+  },
+  "requirements": [
+    {
+      "id": "R1",
+      "capability": "revisioned-source-read",
+      "required": true,
+      "evidence_class": "source-evidence",
+      "effect_class": "read",
+      "witness": "source",
+      "stop_condition": "Current owner ground and task-relevant project witnesses are attributable."
+    },
+    {
+      "id": "R2",
+      "capability": "portable-skill-packaging",
+      "required": true,
+      "evidence_class": "skill-artifact",
+      "effect_class": "local-write",
+      "witness": "machine",
+      "stop_condition": "Skill Creator validates skills/3rdi."
+    },
+    {
+      "id": "R3",
+      "capability": "deterministic-projection-compilation",
+      "required": true,
+      "evidence_class": "runtime-receipt",
+      "effect_class": "compute",
+      "witness": "machine",
+      "stop_condition": "The canonical cuts and five hostile labs execute deterministically."
+    },
+    {
+      "id": "R4",
+      "capability": "adversarial-verification",
+      "required": true,
+      "evidence_class": "test-and-review-receipt",
+      "effect_class": "compute",
+      "witness": "machine",
+      "stop_condition": "Full tests, lab harness, validator, compile check, and diff check pass."
+    },
+    {
+      "id": "R5",
+      "capability": "feature-branch-publication",
+      "required": true,
+      "evidence_class": "git-head-receipt",
+      "effect_class": "external-write",
+      "witness": "source",
+      "stop_condition": "feat/hatch-3rdi is pushed without force."
+    },
+    {
+      "id": "R6",
+      "capability": "pull-request-publication",
+      "required": true,
+      "evidence_class": "pull-request-receipt",
+      "effect_class": "publish",
+      "witness": "owner-gate",
+      "stop_condition": "A PR targets main and remains unmerged for owner review."
+    }
+  ],
+  "adapters": [
+    {
+      "id": "A1",
+      "name": "GitBook and GitHub source readers",
+      "kind": "tool",
+      "state": "witnessed",
+      "capabilities": ["revisioned-source-read"],
+      "evidence_classes": ["source-evidence"],
+      "effect_classes": ["read"],
+      "selected_for": ["R1"],
+      "fallback_for": [],
+      "probe": {
+        "status": "passed",
+        "receipt": "Repository metadata, exact Daily Slice files, and task-relevant Front Room pages were read."
+      }
+    },
+    {
+      "id": "A2",
+      "name": "Skill Creator",
+      "kind": "skill",
+      "state": "witnessed",
+      "capabilities": ["portable-skill-packaging"],
+      "evidence_classes": ["skill-artifact"],
+      "effect_classes": ["local-write"],
+      "selected_for": ["R2"],
+      "fallback_for": [],
+      "probe": {
+        "status": "passed",
+        "receipt": "quick_validate.py reported Skill is valid."
+      }
+    },
+    {
+      "id": "A3",
+      "name": "3rdi reference kernel and lab harness",
+      "kind": "script",
+      "state": "witnessed",
+      "capabilities": [
+        "deterministic-projection-compilation",
+        "adversarial-verification"
+      ],
+      "evidence_classes": [
+        "runtime-receipt",
+        "test-and-review-receipt"
+      ],
+      "effect_classes": ["compute"],
+      "selected_for": ["R3", "R4"],
+      "fallback_for": [],
+      "probe": {
+        "status": "passed",
+        "receipt": "Unit tests and all five named labs passed locally."
+      }
+    },
+    {
+      "id": "A4",
+      "name": "git and GitHub",
+      "kind": "tool",
+      "state": "selected",
+      "capabilities": [
+        "feature-branch-publication",
+        "pull-request-publication"
+      ],
+      "evidence_classes": [
+        "git-head-receipt",
+        "pull-request-receipt"
+      ],
+      "effect_classes": ["external-write", "publish"],
+      "selected_for": ["R5", "R6"],
+      "fallback_for": [],
+      "probe": {
+        "status": "passed",
+        "receipt": "Authenticated repository clone and metadata reads succeeded; the exact main bootstrap mutation remains owner-gated."
+      }
+    }
+  ],
+  "omitted_candidates": [
+    {
+      "name": "app_block",
+      "reason": "Explicitly requested but no callable capability was present; no app execution is claimed."
+    },
+    {
+      "name": "Supabase, Google Drive, Dropbox, and PostHog",
+      "reason": "No persistence, migration, or analytics contract is part of the phase-0 floor."
+    },
+    {
+      "name": "Twilio",
+      "reason": "Gate evaluation is pure and no message side effect is authorized."
+    },
+    {
+      "name": "NaCl project runtime",
+      "reason": "The required project-local Neo4j MCP and verified canary are not configured."
+    },
+    {
+      "name": "spreadsheet artifact",
+      "reason": "The control matrix belongs in diffable JSON rather than a binary authority surface."
+    }
+  ],
+  "execution": [
+    {
+      "id": "E1",
+      "requirement_ids": ["R1"],
+      "adapter_id": "A1",
+      "effect_class": "read",
+      "gate": "implicit-user-request",
+      "status": "completed",
+      "expected_receipt": "Attributable owner and project sources."
+    },
+    {
+      "id": "E2",
+      "requirement_ids": ["R2"],
+      "adapter_id": "A2",
+      "effect_class": "local-write",
+      "gate": "explicit-user-request",
+      "status": "completed",
+      "expected_receipt": "Validated repo-backed skill package."
+    },
+    {
+      "id": "E3",
+      "requirement_ids": ["R3", "R4"],
+      "adapter_id": "A3",
+      "effect_class": "compute",
+      "gate": "implicit-user-request",
+      "status": "completed",
+      "expected_receipt": "Passing deterministic tests and named hostile labs."
+    },
+    {
+      "id": "E4",
+      "requirement_ids": ["R5"],
+      "adapter_id": "A4",
+      "effect_class": "external-write",
+      "gate": "explicit-user-request",
+      "status": "pending",
+      "expected_receipt": "Remote feat/hatch-3rdi head SHA."
+    },
+    {
+      "id": "E5",
+      "requirement_ids": ["R6"],
+      "adapter_id": "A4",
+      "effect_class": "publish",
+      "gate": "explicit-user-request",
+      "status": "pending",
+      "expected_receipt": "Open pull request URL and current head."
+    }
+  ],
+  "pressure": {
+    "method": "MADDCL0WN plus named 3rdi hostile labs",
+    "status": "passed",
+    "counterpressure": [
+      "Later relevance may be mistaken for earlier causation.",
+      "Edge perception may be accidentally globalized across observers.",
+      "A reconstruction may leak actual future occurrences into a historical cut.",
+      "A coordinate decoder receipt may be mistaken for an executed transform.",
+      "A clean projection may be mistaken for authority."
+    ]
+  },
+  "local_gate": {
+    "required": true,
+    "owner": "the-static-collective/3rdi owner",
+    "status": "pending",
+    "receipt": null
+  },
+  "compile_status": "partial",
+  "unfilled_requirements": [],
+  "residual_fog": [
+    "Remote main bootstrap requires explicit approval before the feature branch can target a PR base.",
+    "The owner merge gate remains pending.",
+    "Production persistence, authorization, numerical CRS transformation, telemetry, and UI remain out of scope."
+  ],
+  "receipt": {
+    "completed": false,
+    "outcome": "partial",
+    "evidence": [
+      "skills/3rdi passed Skill Creator validation",
+      "unit and contract tests passed",
+      "five named hatch labs passed",
+      "remote main bootstrap was not pushed without explicit approval"
+    ]
+  }
+}
