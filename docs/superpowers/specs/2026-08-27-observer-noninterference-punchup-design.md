@@ -1,6 +1,6 @@
 # 3rdi Observer Noninterference Punchup Design
 
-**Status:** approved in-chat design; awaiting written-spec review
+**Status:** approved in-chat design; self-reviewed; awaiting written-spec review
 **Date:** 2026-08-27
 **Branch:** `feat/hatch-3rdi`
 **Parent design:** `docs/superpowers/specs/2026-08-27-3rdi-design.md`
@@ -27,6 +27,8 @@ The existing sentence remains intact:
 
 The new law is additive, not a replacement.
 
+Because PR #1 has not merged, this design intentionally permits breaking the hatch-only `3rdi.projection-receipt/v0` shape rather than preserving compatibility debt. The original hatch design and receipt remain attributable history; the implementation should move the branch to the split contracts below before merge.
+
 ---
 
 ## 1. Observer Noninterference
@@ -50,6 +52,7 @@ This is stronger than “do not print hidden content.” Hidden material must no
 - withheld counts when those counts are not themselves visible;
 - error strings;
 - gate explanations;
+- residual-fog details;
 - full-ledger digests;
 - input digests;
 - ordering artifacts;
@@ -123,9 +126,11 @@ Shape:
 }
 ```
 
+`notices.residual_fog` may describe observer-visible uncertainty only. It must use generic unavailable states when the detailed cause would reveal hidden material.
+
 The observer digest hashes only the observer receipt before `observer_digest` is added.
 
-It must not include full-field input digests, hidden identifiers, hidden edge identities, or full-ledger digests.
+It must not include full-field input digests, hidden identifiers, hidden edge identities, hidden counts, or full-ledger digests.
 
 ### 2.2 Audit receipt
 
@@ -165,6 +170,8 @@ Shape:
   "audit_digest": "sha256:..."
 }
 ```
+
+`compile_audit_cut` must first derive the same observer receipt used by `compile_observer_cut`, then include that exact `observer_digest` in the audit receipt. It must not maintain a second observer-projection algorithm.
 
 The audit digest is expected to change when hidden field material changes.
 
@@ -214,7 +221,7 @@ It must not reveal:
 
 The audit receipt may carry precise diagnostics because it is explicitly a separate custodian artifact.
 
-This applies to gate evaluation, location claims, edge projection, expectations, and any future observer-facing adapter.
+This applies to gate evaluation, location claims, edge projection, expectations, residual fog, and any future observer-facing adapter.
 
 ### Parallax rule
 
@@ -239,7 +246,7 @@ RAW CARRIER
 
 ### 4.1 Terminology
 
-Replace overloaded decoder field `constitution` with `decoder_frame` or frame-specific fields.
+Replace the decoder's overloaded `constitution` field with an explicit `decoder_frame` object. Do not retain `constitution` as an alias in the unmerged hatch schema.
 
 Use **authority constitution** only for external admission/authorization worlds. The decoder is not an authority constitution.
 
@@ -255,7 +262,7 @@ projection != source != authority
 
 ### 4.2 Typed decoder receipt
 
-The current guitar specimen becomes conceptually:
+The guitar specimen uses this input shape:
 
 ```json
 {
@@ -265,6 +272,7 @@ The current guitar specimen becomes conceptually:
   },
   "decoder_frame": {
     "id": "cgcegd-a444",
+    "accepts_carrier_type": "six-string-fret-offsets/v1",
     "open_midi": [],
     "temperament": "12-TET",
     "reference_hz": 444
@@ -272,24 +280,32 @@ The current guitar specimen becomes conceptually:
 }
 ```
 
-The decoder must reject a carrier whose declared type is absent or incompatible with the decoder frame.
+The decoder must reject a carrier whose declared `carrier_type` is absent or does not equal `decoder_frame.accepts_carrier_type`.
 
 This is deliberately not a universal type system. v0 needs only enough typing to prevent a raw token from silently entering a decoder whose grammar it has not earned.
 
 ### 4.3 Prospective decoder binding
 
-For a decoder result used in a prospective or predictive claim, preserve whether the decoder frame was bound before the target result was inspected.
-
-Minimum receipt fields:
+A decoder receipt used for prospective or predictive comparison carries one non-contradictory binding state:
 
 ```text
+binding_mode = prospective | posthoc | unknown
 decoder_bound_at
 binding_reason
-prospective = true | false
-posthoc = true | false
+binding_evidence_refs[]
 ```
 
-If the decoder was selected after inspecting the desired target output, the projection may still be useful as reinterpretation, but it cannot be promoted as a prospective prediction or independent evidentiary success.
+`binding_mode` is an attributable claim, not something 3rdi invents from wall-clock time alone.
+
+Rules:
+
+- `prospective` means the caller supplies attributable evidence that the decoder frame was bound before target inspection;
+- `posthoc` means the frame was selected or materially tuned after the target was inspected;
+- `unknown` means the available receipt cannot establish either condition.
+
+Only `binding_mode = prospective` is eligible for a prospective/predictive success claim. `posthoc` and `unknown` projections may remain useful reinterpretations but must be refused for prospective promotion.
+
+No interesting projection may rewrite `binding_mode` after the fact.
 
 This is the executable form of `POSTHOC-KEY-FITTING`.
 
@@ -303,7 +319,7 @@ Canonicalization must distinguish:
 
 ### Set-like fields
 
-Order does not carry meaning and may be sorted for deterministic hashing, for example:
+Order does not carry meaning and may be sorted for deterministic hashing:
 
 ```text
 source_refs
@@ -316,7 +332,7 @@ gate_ids
 
 ### Sequence-like fields
 
-Order is part of the receipt and must be preserved, for example:
+Order is part of the receipt and must be preserved:
 
 ```text
 discovery_trace
@@ -332,9 +348,9 @@ A -> B formation
 B -> A formation
 ```
 
-while equivalent set-valued metadata should continue to hash identically regardless of input list ordering.
+while equivalent set-valued metadata must continue to hash identically regardless of input list ordering.
 
-If a future field has ambiguous ordering semantics, the schema must decide explicitly before canonicalization rather than guessing.
+If a future field has ambiguous ordering semantics, schema validation must refuse that new field until its order semantics are declared. Canonicalization must not guess.
 
 ---
 
@@ -346,7 +362,7 @@ The punchup is not complete until the new laws are executable.
 
 Build two fields with byte-different hidden material but the same lawful observer-visible projection.
 
-Mutations should include at least:
+Mutations must include:
 
 - add/remove a hidden future occurrence;
 - change hidden occurrence source references;
@@ -370,7 +386,7 @@ Pass conditions:
 - default CLI emits only observer receipt;
 - `--audit` emits audit receipt;
 - observer receipt contains no audit-only keys;
-- audit receipt cites the observer digest it audits;
+- audit receipt cites the exact observer digest produced by the observer compiler;
 - audit surface explicitly says authorization was not evaluated by 3rdi.
 
 ### `TRACE-ORDER-001`
@@ -410,14 +426,14 @@ Pass conditions:
 
 ### `POSTHOC-KEY-FITTING-001`
 
-Compare a frame frozen before target inspection with one selected after target inspection.
+Compare a frame with `binding_mode = prospective` against one with `binding_mode = posthoc` or `unknown`.
 
 Pass conditions:
 
-- both may emit attributable projections;
-- the posthoc projection is marked posthoc;
-- it is refused for prospective/predictive promotion;
-- no interesting match can erase the selection-time receipt.
+- all may emit attributable projections;
+- non-prospective projections retain their binding state;
+- only the prospectively bound projection is eligible for predictive-success language;
+- no interesting match can erase or upgrade the selection-time receipt.
 
 ### `AUTHORITY-NULL-001`
 
@@ -445,40 +461,39 @@ Keep and re-run:
 
 ## 7. Public module boundaries
 
-The implementation should preserve small units rather than expanding the current compiler into one omniscient function.
-
-Target responsibilities:
+The implementation uses these responsibilities explicitly:
 
 ```text
-model.py
-  schema validation
+skills/3rdi/scripts/three_rdi/model.py
+  field/schema validation
   canonicalization policy
-  typed carrier / decoder boundary records
+  set-like versus sequence-like normalization
 
-projection.py
-  observer-local compilation
+skills/3rdi/scripts/three_rdi/compile.py
+  observer-local projection primitives
+  compile_observer_cut()
   no audit-only data in observer artifact
 
-audit.py
-  custodian diagnostics
+skills/3rdi/scripts/three_rdi/audit.py
+  compile_audit_cut()
   full-ledger/full-field digests
-  links to observer_digest
+  withheld-object diagnostics
+  exact observer_digest link
 
-glyph.py
+skills/3rdi/scripts/three_rdi/glyph.py
   typed carrier validation
-  decoder frame application
-  prospective/posthoc binding receipt
+  decoder_frame application
+  binding_mode receipt and promotion eligibility
 
-compile_projection.py
-  CLI surface selection
-  observer default
-  explicit --audit
+skills/3rdi/scripts/compile_projection.py
+  observer output by default
+  explicit --audit selection
 
-labs/tests
+skills/3rdi/scripts/run_labs.py + tests/
   executable constitutional controls
 ```
 
-The exact filename split may follow existing code if a smaller change is clearer, but the observer and audit responsibilities must remain separately testable.
+`compile_audit_cut()` may reuse observer compilation but must remain a separately testable public function. `compile_observer_cut()` must have no dependency on `audit.py`.
 
 ---
 
@@ -514,11 +529,11 @@ The punchup is accepted only if all of the following are true:
 1. changing only hidden world material cannot change observer receipt bytes or observer digest;
 2. audit material is emitted only through a distinct audit receipt;
 3. 3rdi explicitly declines to decide audit-delivery authorization;
-4. observer-facing unresolved states cannot disclose hidden identifiers or hidden-world facts through reasons or hashes;
+4. observer-facing unresolved states cannot disclose hidden identifiers or hidden-world facts through reasons, residual fog, counts, or hashes;
 5. `PARALLAX` operates over observer receipts, not audit receipts;
 6. raw carriers require declared compatible types before decoding;
-7. decoder frame is terminologically and structurally distinct from authority constitution;
-8. prospective decoder selection time is attributable and posthoc key fitting cannot masquerade as prediction;
+7. `decoder_frame` is terminologically and structurally distinct from authority constitution;
+8. prospective decoder binding is attributable and posthoc/unknown binding cannot masquerade as prediction;
 9. `discovery_trace` preserves order through normalization and hashing;
 10. set-valued metadata remains deterministic under harmless input ordering changes;
 11. existing temporal, causal/relevance, narrator, rupture, and decoder invariants still pass;
