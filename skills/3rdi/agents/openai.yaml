@@ -1,7 +1,7 @@
 interface:
   display_name: "3rdi"
-  short_description: "Compile observer-local projection receipts"
-  default_prompt: "Use $3rdi to compile what was lawfully visible at this observer-local cut."
+  short_description: "See from one observer-local cut without hindsight"
+  default_prompt: "Use $3rdi to show what this observer could lawfully know at the selected cut without importing hindsight."
 
 policy:
   allow_implicit_invocation: true
