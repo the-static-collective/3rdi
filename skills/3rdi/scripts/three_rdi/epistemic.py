@@ -16,6 +16,12 @@ def _with_hindsight(record: dict[str, Any], *, time_field: str, focus_at: str) -
     }
 
 
+def _withheld(kind: str, reason: str) -> dict[str, str]:
+    """Return observer-safe diagnostic category without hidden event identity."""
+
+    return {"kind": kind, "reason": reason}
+
+
 def _compile_epistemic_trace(
     field: dict[str, Any],
     cut: dict[str, Any],
@@ -39,7 +45,7 @@ def _compile_epistemic_trace(
         elif parse_instant(contact["sensed_at"], "contact.sensed_at") > known:
             reason = "beyond-known-at"
         if reason is not None:
-            withheld.append({"kind": "contact", "id": contact["id"], "reason": reason})
+            withheld.append(_withheld("contact", reason))
             continue
         contacts.append(_with_hindsight(contact, time_field="sensed_at", focus_at=focus_at))
 
@@ -55,7 +61,7 @@ def _compile_epistemic_trace(
         elif parse_instant(attention["occurred_at"], "attention.occurred_at") > known:
             reason = "beyond-known-at"
         if reason is not None:
-            withheld.append({"kind": "attention", "id": attention["id"], "reason": reason})
+            withheld.append(_withheld("attention", reason))
             continue
         attention_events.append(
             _with_hindsight(attention, time_field="occurred_at", focus_at=focus_at)
@@ -71,7 +77,7 @@ def _compile_epistemic_trace(
         elif parse_instant(application["applied_at"], "decoder.applied_at") > known:
             reason = "beyond-known-at"
         if reason is not None:
-            withheld.append({"kind": "decoder", "id": application["id"], "reason": reason})
+            withheld.append(_withheld("decoder", reason))
             continue
         decoder_applications.append(
             _with_hindsight(application, time_field="applied_at", focus_at=focus_at)
@@ -89,7 +95,7 @@ def _compile_epistemic_trace(
         elif parse_instant(stance["formed_at"], "stance.formed_at") > known:
             reason = "beyond-known-at"
         if reason is not None:
-            withheld.append({"kind": "stance", "id": stance["id"], "reason": reason})
+            withheld.append(_withheld("stance", reason))
             continue
         stances.append(_with_hindsight(stance, time_field="formed_at", focus_at=focus_at))
 
@@ -99,7 +105,10 @@ def _compile_epistemic_trace(
         "decoder_applications": decoder_applications,
         "stances": stances,
     }
-    withheld.sort(key=lambda item: (item["kind"], item["id"], item["reason"]))
+    withheld = [
+        {"kind": kind, "reason": reason}
+        for kind, reason in sorted({(item["kind"], item["reason"]) for item in withheld})
+    ]
     return trace, withheld
 
 
