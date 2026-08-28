@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from html import escape
 from typing import Any
 
@@ -41,9 +42,14 @@ def _project_landmarks(landmarks: dict[str, Any]) -> dict[str, tuple[float, floa
             or not name
             or not isinstance(raw, list)
             or len(raw) != 2
-            or any(not isinstance(value, (int, float)) or isinstance(value, bool) for value in raw)
+            or any(
+                not isinstance(value, (int, float))
+                or isinstance(value, bool)
+                or not math.isfinite(float(value))
+                for value in raw
+            )
         ):
-            raise FieldError("formation receipt contains invalid landmark geometry")
+            raise FieldError("formation receipt landmark geometry must contain finite numbers")
         coordinates[name] = (float(raw[0]), float(raw[1]))
 
     xs = [point[0] for point in coordinates.values()]
