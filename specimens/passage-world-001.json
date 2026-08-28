@@ -1,0 +1,201 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "passage-world-001",
+  "source_refs": ["neutral:TWO-ROADS-ONE-DOOR-001"],
+  "occurrences": [
+    {
+      "id": "source-room-r0",
+      "occurred_at": "2026-08-28T12:00:00Z",
+      "locus_id": "R0",
+      "source_refs": ["fixture:source-room"]
+    },
+    {
+      "id": "evidence-e1",
+      "occurred_at": "2026-08-28T12:00:01Z",
+      "locus_id": "R0",
+      "source_refs": ["fixture:e1"]
+    },
+    {
+      "id": "carrier-e2",
+      "occurred_at": "2026-08-28T12:00:02Z",
+      "locus_id": "R0",
+      "source_refs": ["fixture:e2"]
+    },
+    {
+      "id": "distractor-visible-no-contact",
+      "occurred_at": "2026-08-28T12:00:03Z",
+      "locus_id": "R0",
+      "source_refs": ["fixture:distractor"]
+    },
+    {
+      "id": "token-formation-point",
+      "occurred_at": "2026-08-28T12:00:20Z",
+      "locus_id": "R0",
+      "source_refs": ["fixture:formation-point"]
+    },
+    {
+      "id": "destination-room-r1",
+      "occurred_at": "2026-08-28T12:00:30Z",
+      "locus_id": "R1",
+      "source_refs": ["fixture:destination-room"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "source-road-a",
+      "occurrence_id": "source-room-r0",
+      "observer": "road-a",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:00Z",
+      "evidence_refs": ["fixture:exposure"]
+    },
+    {
+      "id": "source-road-b",
+      "occurrence_id": "source-room-r0",
+      "observer": "road-b",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:00Z",
+      "evidence_refs": ["fixture:exposure"]
+    },
+    {
+      "id": "e1-road-a",
+      "occurrence_id": "evidence-e1",
+      "observer": "road-a",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:01Z",
+      "evidence_refs": ["fixture:e1-exposure"]
+    },
+    {
+      "id": "e2-road-b",
+      "occurrence_id": "carrier-e2",
+      "observer": "road-b",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:02Z",
+      "evidence_refs": ["fixture:e2-exposure"]
+    },
+    {
+      "id": "distractor-road-a",
+      "occurrence_id": "distractor-visible-no-contact",
+      "observer": "road-a",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:03Z",
+      "evidence_refs": ["fixture:distractor-exposure"]
+    },
+    {
+      "id": "distractor-road-b",
+      "occurrence_id": "distractor-visible-no-contact",
+      "observer": "road-b",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:03Z",
+      "evidence_refs": ["fixture:distractor-exposure"]
+    },
+    {
+      "id": "formation-road-a",
+      "occurrence_id": "token-formation-point",
+      "observer": "road-a",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:20Z",
+      "evidence_refs": ["fixture:formation-exposure"]
+    },
+    {
+      "id": "formation-road-b",
+      "occurrence_id": "token-formation-point",
+      "observer": "road-b",
+      "layer": "private",
+      "available_from": "2026-08-28T12:00:20Z",
+      "evidence_refs": ["fixture:formation-exposure"]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "contact-e1-road-a",
+      "occurrence_id": "evidence-e1",
+      "observer": "road-a",
+      "layer": "private",
+      "sensed_at": "2026-08-28T12:00:05Z",
+      "evidence_refs": ["fixture:contact-e1"]
+    },
+    {
+      "id": "contact-e2-road-b",
+      "occurrence_id": "carrier-e2",
+      "observer": "road-b",
+      "layer": "private",
+      "sensed_at": "2026-08-28T12:00:05Z",
+      "evidence_refs": ["fixture:contact-e2"]
+    }
+  ],
+  "attention_events": [
+    {
+      "id": "attention-e1-road-a",
+      "contact_id": "contact-e1-road-a",
+      "observer": "road-a",
+      "action": "attended",
+      "occurred_at": "2026-08-28T12:00:06Z",
+      "evidence_refs": ["fixture:attention-e1"]
+    },
+    {
+      "id": "attention-e2-road-b",
+      "contact_id": "contact-e2-road-b",
+      "observer": "road-b",
+      "action": "attended",
+      "occurred_at": "2026-08-28T12:00:06Z",
+      "evidence_refs": ["fixture:attention-e2"]
+    }
+  ],
+  "decoder_applications": [
+    {
+      "id": "decoder-road-b1",
+      "contact_id": "contact-e2-road-b",
+      "observer": "road-b",
+      "decoder_ref": "decoder:passage-e2/v1",
+      "applied_at": "2026-08-28T12:00:15Z",
+      "projection_ref": "projection:road-b1-token",
+      "evidence_refs": ["fixture:decoder-e2"]
+    }
+  ],
+  "stances": [
+    {
+      "id": "stance-road-b1",
+      "observer": "road-b",
+      "projection_ref": "projection:road-b1-token",
+      "stance": "held",
+      "formed_at": "2026-08-28T12:00:16Z",
+      "evidence_refs": ["fixture:stance-e2"]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "ROAD-A",
+      "observer": "road-a",
+      "mode": "historical",
+      "focus_at": "2026-08-28T12:00:25Z",
+      "known_at": "2026-08-28T12:00:25Z",
+      "audience_layers": ["private"],
+      "location_scope": ["R0"],
+      "focus_occurrence_ids": ["token-formation-point"],
+      "gate_ids": []
+    },
+    {
+      "id": "ROAD-B0",
+      "observer": "road-b",
+      "mode": "historical",
+      "focus_at": "2026-08-28T12:00:10Z",
+      "known_at": "2026-08-28T12:00:10Z",
+      "audience_layers": ["private"],
+      "location_scope": ["R0"],
+      "focus_occurrence_ids": ["source-room-r0"],
+      "gate_ids": []
+    },
+    {
+      "id": "ROAD-B1",
+      "observer": "road-b",
+      "mode": "historical",
+      "focus_at": "2026-08-28T12:00:25Z",
+      "known_at": "2026-08-28T12:00:25Z",
+      "audience_layers": ["private"],
+      "location_scope": ["R0"],
+      "focus_occurrence_ids": ["token-formation-point"],
+      "gate_ids": []
+    }
+  ]
+}
