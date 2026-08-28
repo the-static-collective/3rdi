@@ -1,0 +1,24 @@
+name: passage-world-receipts
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Export exact 3rdi PASSAGE receipts
+        run: python3 skills/3rdi/scripts/export_passage_world_receipts.py --output passage-receipts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: passage-world-3rdi-receipts
+          path: passage-receipts
+          if-no-files-found: error
