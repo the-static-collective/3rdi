@@ -34,6 +34,52 @@ def _lab(lab_id: str, checks: dict[str, bool], evidence: dict[str, Any]) -> dict
     }
 
 
+def run_passage_world_lab() -> dict[str, Any]:
+    """Prove only the 3rdi-local aperture properties of PASSAGE-WORLD-001."""
+
+    field = _load_json(ROOT / "specimens" / "passage-world-001.json")
+    road_a = compile_cut(field, "ROAD-A")
+    road_b0 = compile_cut(field, "ROAD-B0")
+    road_b1 = compile_cut(field, "ROAD-B1")
+    trace_a = road_a["observer_view"]["epistemic_trace"]
+    trace_b0 = road_b0["observer_view"]["epistemic_trace"]
+    trace_b1 = road_b1["observer_view"]["epistemic_trace"]
+    b0_json = json.dumps(road_b0, sort_keys=True)
+
+    result = {
+        "id": "PASSAGE-WORLD-3RDI-001",
+        "status": "pass",
+        "road_a_projection_digest": road_a["projection_digest"],
+        "road_b_projection_digest": road_b1["projection_digest"],
+        "same_field": road_a["field_id"] == road_b1["field_id"],
+        "road_a_direct_contact": [item["id"] for item in trace_a["contacts"]]
+        == ["contact-e1-road-a"],
+        "road_b_decoder_descendant": (
+            [item["id"] for item in trace_b0["contacts"]] == ["contact-e2-road-b"]
+            and trace_b0["decoder_applications"] == []
+            and [item["id"] for item in trace_b1["contacts"]] == ["contact-e2-road-b"]
+            and [item["id"] for item in trace_b1["decoder_applications"]]
+            == ["decoder-road-b1"]
+            and [item["id"] for item in trace_b1["stances"]] == ["stance-road-b1"]
+        ),
+        "road_b0_not_rewritten": all(
+            hidden not in b0_json
+            for hidden in ("decoder-road-b1", "stance-road-b1", "projection:road-b1-token")
+        ),
+    }
+    if not all(
+        result[key]
+        for key in (
+            "same_field",
+            "road_a_direct_contact",
+            "road_b_decoder_descendant",
+            "road_b0_not_rewritten",
+        )
+    ):
+        result["status"] = "fail"
+    return result
+
+
 def run_labs() -> dict[str, Any]:
     """Execute every named hatch control against committed specimens."""
 
@@ -197,7 +243,8 @@ def run_labs() -> dict[str, Any]:
         },
     )
 
-    labs = [temporal, causal_relevance, glyph_receiver, two_narrator, rupture]
+    passage_world = run_passage_world_lab()
+    labs = [temporal, causal_relevance, glyph_receiver, two_narrator, rupture, passage_world]
     receipt: dict[str, Any] = {
         "schema": "3rdi.lab-receipt/v0",
         "status": "pass" if all(lab["status"] == "pass" for lab in labs) else "fail",

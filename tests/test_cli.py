@@ -54,6 +54,7 @@ class CliTests(unittest.TestCase):
                 "GLYPH-RECEIVER-001",
                 "TWO-NARRATOR-001",
                 "RUPTURE-REACHABILITY-001",
+                "PASSAGE-WORLD-3RDI-001",
             },
         )
 
