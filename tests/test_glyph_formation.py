@@ -111,6 +111,13 @@ class GlyphFormationTests(unittest.TestCase):
         with self.assertRaisesRegex(FieldError, "formation receipt"):
             render_glyph_trace(self.field)
 
+    def test_renderer_rejects_non_finite_receipt_geometry(self) -> None:
+        receipt = compile_glyph_formation(self.field, "single-gesture")
+        receipt["render_model"]["landmarks"]["L"][0] = float("nan")
+
+        with self.assertRaisesRegex(FieldError, "finite"):
+            render_glyph_trace(receipt)
+
 
 if __name__ == "__main__":
     unittest.main()
