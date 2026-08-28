@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_ROOT = ROOT / "skills" / "3rdi" / "scripts"
 sys.path.insert(0, str(SCRIPT_ROOT))
 
-from three_rdi import compile_cut  # noqa: E402
+from three_rdi import compile_cut, mortal_actor_handoff  # noqa: E402
 
 
 SPECIMEN = ROOT / "specimens" / "passage-world-001.json"
@@ -26,6 +26,15 @@ def visible_ids(receipt: dict) -> set[str]:
 
 def trace(receipt: dict) -> dict:
     return receipt["observer_view"]["epistemic_trace"]
+
+
+def epistemic_signature(handoff: dict) -> dict:
+    return {
+        "contacts": tuple(sorted(handoff["contact_ids"])),
+        "attention": tuple(sorted(handoff["attention_event_ids"])),
+        "decoders": tuple(sorted(handoff["decoder_application_ids"])),
+        "stances": tuple(sorted(handoff["stance_ids"])),
+    }
 
 
 class PassageWorldProjectionTests(unittest.TestCase):
@@ -89,6 +98,31 @@ class PassageWorldProjectionTests(unittest.TestCase):
                 item["occurrence_id"] for item in trace(receipt)["contacts"]
             }
             self.assertNotIn("distractor-visible-no-contact", contacted_occurrences)
+
+    def test_mortal_handoffs_preserve_distinct_lawful_epistemic_ancestry(self) -> None:
+        field = load_field()
+        handoff_a = mortal_actor_handoff(compile_cut(field, "ROAD-A"))
+        handoff_b = mortal_actor_handoff(compile_cut(field, "ROAD-B1"))
+
+        self.assertEqual(handoff_a["schema"], "mortal_actor.3rdi-handoff/v0")
+        self.assertEqual(handoff_b["schema"], "mortal_actor.3rdi-handoff/v0")
+        self.assertEqual(handoff_a["field_id"], handoff_b["field_id"])
+        self.assertNotEqual(handoff_a["projection_digest"], handoff_b["projection_digest"])
+        self.assertNotEqual(epistemic_signature(handoff_a), epistemic_signature(handoff_b))
+        self.assertEqual(handoff_a["contact_ids"], ["contact-e1-road-a"])
+        self.assertEqual(handoff_b["contact_ids"], ["contact-e2-road-b"])
+        self.assertEqual(handoff_b["decoder_application_ids"], ["decoder-road-b1"])
+        self.assertEqual(handoff_b["stance_ids"], ["stance-road-b1"])
+
+    def test_mortal_handoff_exposes_visibility_without_hidden_or_invented_contact(self) -> None:
+        field = load_field()
+        handoff_a = mortal_actor_handoff(compile_cut(field, "ROAD-A"))
+        handoff_b = mortal_actor_handoff(compile_cut(field, "ROAD-B1"))
+
+        for handoff in (handoff_a, handoff_b):
+            self.assertIn("distractor-visible-no-contact", handoff["visible_occurrence_ids"])
+            self.assertNotIn("distractor-visible-no-contact", handoff["contact_ids"])
+        self.assertNotIn("evidence-e1", str(handoff_b))
 
     def test_3rdi_output_contains_no_passage_verdict(self) -> None:
         for cut_id in ("ROAD-A", "ROAD-B0", "ROAD-B1"):
