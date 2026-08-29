@@ -1,0 +1,86 @@
+{
+  "schema": "3rdi.glyph-formation-field/v0",
+  "field_id": "y-fork-001",
+  "carrier": {
+    "id": "carrier-y-001",
+    "representation": {
+      "kind": "normalized-landmarks",
+      "landmarks": {
+        "L": [-1.0, 1.0],
+        "J": [0.0, 0.0],
+        "R": [1.0, 1.0],
+        "B": [0.0, -1.0]
+      },
+      "segments": [
+        ["L", "J"],
+        ["J", "R"],
+        ["J", "B"]
+      ]
+    },
+    "source_refs": ["owner-supplied-y-fork-seed"]
+  },
+  "tool_constitutions": [
+    {
+      "id": "monoline-pen",
+      "kind": "pen",
+      "allows_lift": true,
+      "allows_retrace": true,
+      "retrace_visibility": "low"
+    },
+    {
+      "id": "incised-stylus",
+      "kind": "incision",
+      "allows_lift": true,
+      "allows_retrace": true,
+      "retrace_visibility": "high"
+    }
+  ],
+  "formations": [
+    {
+      "id": "stem-first",
+      "origin": "manual-hypothesis",
+      "operations": [
+        {"id": "a1", "op": "stroke", "from": "B", "to": "J"},
+        {"id": "a2", "op": "stroke", "from": "J", "to": "L"},
+        {"id": "a3", "op": "stroke", "from": "J", "to": "R"}
+      ]
+    },
+    {
+      "id": "fork-first",
+      "origin": "manual-hypothesis",
+      "operations": [
+        {"id": "b1", "op": "stroke_path", "through": ["L", "J", "R"]},
+        {"id": "b2", "op": "stroke", "from": "J", "to": "B"}
+      ]
+    },
+    {
+      "id": "left-rooted",
+      "origin": "manual-hypothesis",
+      "operations": [
+        {"id": "c1", "op": "stroke_path", "through": ["L", "J", "B"]},
+        {"id": "c2", "op": "stroke", "from": "R", "to": "J"}
+      ]
+    },
+    {
+      "id": "single-gesture",
+      "origin": "manual-hypothesis",
+      "operations": [
+        {"id": "d1", "op": "stroke_path", "through": ["L", "J", "R", "J", "B"]}
+      ]
+    }
+  ],
+  "formation_gates": [
+    {
+      "id": "one-gesture",
+      "condition": {"metric": "pen_lifts", "op": "eq", "value": 0}
+    },
+    {
+      "id": "no-retrace",
+      "condition": {"metric": "retrace_length", "op": "eq", "value": 0}
+    }
+  ],
+  "source_refs": [
+    "3rdi-glyphtrace-design-v0",
+    "owner-y-fork-seed-walkthrough-2026-08-28"
+  ]
+}

@@ -18,7 +18,7 @@ Never collapse:
 ```text
 occurrence != availability != attention role != relevance
 relevance != causation
-carrier != decoder != projection
+carrier != formation hypothesis != decoder != projection
 projection != source != authority
 historical cut != current hindsight
 actual future != anticipated future
@@ -52,6 +52,15 @@ Do **not** wake `3rdi` for ordinary summarization, a simple chronology, generic 
 
 If the task becomes subtle, read the [operator field guide](references/operator-field-guide.md). For break conditions use the [constitutional core](references/constitutional-core.md); for executable controls use the [hatch labs](references/labs.md); for structured output use the [receipt contract](references/receipt-contract.md); for invocation and misuse pressure cases use [operator evals](references/operator-evals.md).
 
+## GlyphTrace sidecar
+
+For a declared symbol carrier with candidate drawing histories, use the GlyphTrace foreign-domain sidecar. Formation is reconstructed motion, not carrier evidence; semantic interpretation must never back-propagate into formation assessment. The renderer consumes only a formation receipt.
+
+```bash
+python3 skills/3rdi/scripts/compile_glyph_formation.py FIELD.json --formation FORMATION_ID
+python3 skills/3rdi/scripts/render_glyph_trace.py RECEIPT.json --output glyphtrace.html
+```
+
 ## Executable floor
 
 ```bash
@@ -59,4 +68,4 @@ python3 skills/3rdi/scripts/compile_projection.py FIELD.json --cut CUT_ID
 python3 skills/3rdi/scripts/run_labs.py --check
 ```
 
-The kernel is a phase-0 reference compiler—not a production event store, permission system, numerical CRS engine, or universal truth machine.
+The kernel is a phase-0 reference compiler—not a production event store, permission system, numerical CRS engine, historical truth engine, or universal truth machine.
