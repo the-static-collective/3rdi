@@ -68,4 +68,4 @@ python3 skills/3rdi/scripts/compile_projection.py FIELD.json --cut CUT_ID
 python3 skills/3rdi/scripts/run_labs.py --check
 ```
 
-The kernel is a phase-0 reference compiler—not a production event store, permission system, numerical CRS engine, historical truth engine, or universal truth machine.
+The bundled compiler is a reference implementation—not a production event store, permission system, numerical CRS engine, historical truth engine, or universal truth machine. Frontier fixtures and experiments belong behind repo-owned references rather than being copied into the entrypoint.
