@@ -1,0 +1,13 @@
+{
+  "schema": "static-collective/current-organ/v0",
+  "organ": "3rdi",
+  "owner": "the-static-collective/3rdi",
+  "entrypoint": "skills/3rdi/SKILL.md",
+  "state": null,
+  "orientation": {
+    "kind": "gitbook-front-room",
+    "required": false
+  },
+  "resolution": "default-branch-head-then-pin",
+  "fallback": "embedded-bootstrap"
+}
