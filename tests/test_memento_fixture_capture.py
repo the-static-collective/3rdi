@@ -14,8 +14,8 @@ from emit_memento_handoff import build_memento_handoff  # noqa: E402
 from three_rdi import canonical_json, compile_cut  # noqa: E402
 
 
-class MementoFixtureCaptureTests(unittest.TestCase):
-    def test_capture_canonical_fixture_bytes(self) -> None:
+class MementoFixtureReplayTests(unittest.TestCase):
+    def test_canonical_fixture_matches_real_compiler_and_emitter_bytes(self) -> None:
         source = json.loads(
             (ROOT / "specimens" / "memento-handoff-source-001.json").read_text(
                 encoding="utf-8"
@@ -27,8 +27,11 @@ class MementoFixtureCaptureTests(unittest.TestCase):
             emitted_at="2026-08-31T20:00:00Z",
             world_instance_id="same-room-a1",
         )
-        print("MEMENTO_FIXTURE=" + canonical_json(handoff))
-        self.assertEqual(handoff["schema"], "3rdi.memento-handoff/v0")
+        expected = canonical_json(handoff) + "\n"
+        frozen = (ROOT / "specimens" / "memento-handoff-001.json").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(frozen, expected)
 
 
 if __name__ == "__main__":
