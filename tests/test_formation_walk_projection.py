@@ -9,7 +9,8 @@ from pathlib import Path
 SCRIPT_ROOT = Path(__file__).resolve().parents[1] / "skills" / "3rdi" / "scripts"
 sys.path.insert(0, str(SCRIPT_ROOT))
 
-from three_rdi import FieldError, compile_cut, normalize_field  # noqa: E402
+from three_rdi import FieldError, canonical_json, compile_cut, normalize_field  # noqa: E402
+from three_rdi.compile import compile_cut as compile_base_cut  # noqa: E402
 
 
 def base_field() -> dict:
@@ -178,6 +179,30 @@ class FormationWalkProjectionTests(unittest.TestCase):
         withheld = receipt["audit"]["withheld_formation_walks"]
         self.assertTrue(all(item["reason"] == "endpoint-withheld" for item in withheld))
         self.assertTrue(all("step_refs" not in item and "source_refs" not in item for item in withheld))
+
+    def test_withheld_reason_precedence_is_stable(self) -> None:
+        cases = [
+            ("different-observer", {"observer": "observer-b"}),
+            ("audience-layer-closed", {"layer": "sealed"}),
+            ("not-yet-formed", {"formed_at": "2026-08-31T10:16:00Z", "available_from": "2026-08-31T10:17:00Z"}),
+            ("not-available", {"available_from": "2026-08-31T10:16:00Z"}),
+        ]
+        for expected, mutation in cases:
+            field = base_field()
+            field["formation_walks"] = [copy.deepcopy(field["formation_walks"][0])]
+            field["formation_walks"][0].update(mutation)
+            receipt = compile_cut(field, "a1")
+            self.assertEqual(
+                receipt["audit"]["withheld_formation_walks"][0]["reason"], expected
+            )
+
+    def test_omitted_walk_family_is_byte_identical_to_legacy_compiler(self) -> None:
+        field = base_field()
+        field.pop("formation_walks")
+        new_receipt = compile_cut(field, "a1")
+        old_receipt = compile_base_cut(field, "a1")
+        self.assertEqual(canonical_json(new_receipt), canonical_json(old_receipt))
+        self.assertEqual(new_receipt["projection_digest"], old_receipt["projection_digest"])
 
 
 if __name__ == "__main__":
