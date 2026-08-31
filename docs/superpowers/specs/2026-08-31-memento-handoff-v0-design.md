@@ -73,7 +73,7 @@ Schema:
 3rdi.memento-handoff/v0
 ```
 
-Required top-level fields:
+Required top-level fields are `schema`, `emitted_at`, `field_id`, `projection_digest`, `observer`, `cut_id`, `epistemic_trace`, `withheld_categories`, `residual_fog`, and `authority`. `world_instance_id` is optional and may appear only when explicitly supplied.
 
 ```json
 {
@@ -104,7 +104,7 @@ Required top-level fields:
 
 ## Determinism
 
-For identical projection bytes plus identical explicit `emitted_at` and `world_instance_id`, emitter stdout must be byte-identical.
+For identical projection bytes plus identical explicit `emitted_at` and the same explicit presence/absence and value of `world_instance_id`, emitter stdout must be byte-identical.
 
 Trace families are sorted by stable ID before serialization. `withheld_categories` is sorted. Canonical JSON uses the repository's existing deterministic JSON rules and exactly one trailing newline.
 
