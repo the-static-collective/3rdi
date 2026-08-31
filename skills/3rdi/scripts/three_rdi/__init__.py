@@ -1,6 +1,6 @@
 """Public surface for the 3rdi reference kernel."""
 
-from .compile import compile_cut
+from .epistemic import compile_cut
 from .epistemic_model import normalize_field
 from .formation import compile_glyph_formation
 from .glyph import decode_fret_glyph
