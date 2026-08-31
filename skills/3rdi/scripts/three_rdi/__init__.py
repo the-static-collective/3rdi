@@ -1,9 +1,9 @@
 """Public surface for the 3rdi reference kernel."""
 
-from .compile import compile_cut
 from .formation import compile_glyph_formation
+from .formation_walk import compile_cut, normalize_field
 from .glyph import decode_fret_glyph
-from .model import FieldError, canonical_digest, canonical_json, normalize_field
+from .model import FieldError, canonical_digest, canonical_json
 from .render import render_glyph_trace
 
 __all__ = [

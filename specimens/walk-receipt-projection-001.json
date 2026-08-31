@@ -1,0 +1,25 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "walk-receipt-projection-001",
+  "occurrences": [
+    {"id":"e0","occurred_at":"2026-08-31T10:00:00Z","locus_id":"lab","source_refs":["source:e0"]},
+    {"id":"e1","occurred_at":"2026-08-31T10:01:00Z","locus_id":"lab","source_refs":["source:e1"]},
+    {"id":"e2","occurred_at":"2026-08-31T10:02:00Z","locus_id":"lab","source_refs":["source:e2"]},
+    {"id":"e3","occurred_at":"2026-08-31T10:03:00Z","locus_id":"lab","source_refs":["source:e3"]}
+  ],
+  "exposures": [
+    {"id":"exposure-e0","occurrence_id":"e0","observer":"observer-a","layer":"private","available_from":"2026-08-31T10:04:00Z","evidence_refs":["source:e0"]},
+    {"id":"exposure-e1","occurrence_id":"e1","observer":"observer-a","layer":"private","available_from":"2026-08-31T10:04:00Z","evidence_refs":["source:e1"]},
+    {"id":"exposure-e2","occurrence_id":"e2","observer":"observer-a","layer":"private","available_from":"2026-08-31T10:04:00Z","evidence_refs":["source:e2"]},
+    {"id":"exposure-e3","occurrence_id":"e3","observer":"observer-a","layer":"private","available_from":"2026-08-31T10:04:00Z","evidence_refs":["source:e3"]}
+  ],
+  "formation_walks": [
+    {"id":"walk-a","endpoint_occurrence_id":"e3","observer":"observer-a","layer":"private","formed_at":"2026-08-31T10:05:00Z","available_from":"2026-08-31T10:10:00Z","step_refs":["e0","e1","e3"],"source_refs":["receipt:walk-a"]},
+    {"id":"walk-b","endpoint_occurrence_id":"e3","observer":"observer-a","layer":"private","formed_at":"2026-08-31T10:05:00Z","available_from":"2026-08-31T10:20:00Z","step_refs":["e0","e2","e3"],"source_refs":["receipt:walk-b"]}
+  ],
+  "cuts": [
+    {"id":"a0","observer":"observer-a","mode":"historical","focus_at":"2026-08-31T10:09:00Z","known_at":"2026-08-31T10:09:00Z","audience_layers":["private"],"location_scope":["lab"],"focus_occurrence_ids":["e3"],"gate_ids":[]},
+    {"id":"a1","observer":"observer-a","mode":"historical","focus_at":"2026-08-31T10:15:00Z","known_at":"2026-08-31T10:15:00Z","audience_layers":["private"],"location_scope":["lab"],"focus_occurrence_ids":["e3"],"gate_ids":[]},
+    {"id":"a2","observer":"observer-a","mode":"historical","focus_at":"2026-08-31T10:25:00Z","known_at":"2026-08-31T10:25:00Z","audience_layers":["private"],"location_scope":["lab"],"focus_occurrence_ids":["e3"],"gate_ids":[]}
+  ]
+}
