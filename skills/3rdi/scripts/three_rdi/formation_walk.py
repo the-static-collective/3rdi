@@ -110,13 +110,19 @@ def _walk_visibility_reason(
 def compile_cut(raw_field: Any, cut_id: str) -> dict[str, Any]:
     """Compile one cut and expose only formation walks available at that observer cut."""
 
-    field = normalize_field(raw_field)
+    raw_mapping = _require_mapping(raw_field, "field")
+    if "formation_walks" not in raw_mapping:
+        # An omitted optional family is a strict compatibility path: old fields
+        # produce the exact old receipt bytes and digest.
+        return _compile_base_cut(raw_mapping, cut_id)
+
+    field = normalize_field(raw_mapping)
     cut_index = {cut["id"]: cut for cut in field["cuts"]}
     if cut_id not in cut_index:
         raise FieldError(f"unknown cut {cut_id!r}")
     cut = cut_index[cut_id]
 
-    # The base observer receipt must be blind to hidden walk bytes.  Remove the
+    # The base observer receipt must be blind to hidden walk bytes. Remove the
     # optional family before base compilation, then add only lawfully visible
     # walk data to the final observer-local surface.
     base_field = copy.deepcopy(field)
