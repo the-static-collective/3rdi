@@ -13,10 +13,11 @@ The phase-0 JSON field contains these ledgers:
 | `edge_exposures` | `id`, `edge_id`, `observer`, `layer` | `available_from` |
 | `location_decoders` | `id`, source/target CRS, operation | none in v0 |
 | `location_claims` | `id`, `occurrence_id`, `locus_id`, `decoder_id` | `available_from` |
+| `formation_walks` | `id`, `endpoint_occurrence_id`, `observer`, `layer` | `formed_at`, `available_from` |
 | `gates` | `id`, `op`, conditions | evaluated at the cut |
 | `cuts` | `id`, `observer`, `mode` | `focus_at`, `known_at` |
 
-All timestamps are strict RFC 3339 UTC instants ending in `Z`. Lists are canonically ordered before hashing. The kernel rejects duplicate identities and dangling references.
+All timestamps are strict RFC 3339 UTC instants ending in `Z`. Lists are canonically ordered before hashing except sequence-valued formation `step_refs`, whose order is data. The kernel rejects duplicate identities and dangling references.
 
 ## Output: `3rdi.projection-receipt/v0`
 
@@ -40,6 +41,7 @@ All timestamps are strict RFC 3339 UTC instants ending in `Z`. Lists are canonic
       "relevance": {"root_ids": [], "descendant_ids": []}
     },
     "location_claims": [],
+    "formation_walks": [],
     "gates": [],
     "render_model": {}
   },
@@ -51,11 +53,14 @@ All timestamps are strict RFC 3339 UTC instants ending in `Z`. Lists are canonic
     "withheld": [],
     "withheld_expectations": [],
     "withheld_edges": [],
+    "withheld_formation_walks": [],
     "non_authority": "..."
   },
   "projection_digest": "sha256:..."
 }
 ```
+
+The `formation_walks` and `withheld_formation_walks` surfaces appear only when the input field explicitly declares the optional `formation_walks` family. Fields that omit the family retain the exact pre-walk public receipt bytes and digest, including any already-admitted epistemic-trace surface.
 
 ## Visibility
 
@@ -68,6 +73,22 @@ An occurrence enters `observer_view` only when:
 The chosen exposure receipt is included as `available_via`. An exposure after the focus in reconstruction mode sets `hindsight_bearing: true`.
 
 Visible occurrences explicitly carry `available_at_cut: true`. Auditor-facing withheld entries carry `available_at_cut: false` and `perceived_role: unknown`; hidden content remains absent from the observer view.
+
+## Formation-walk projection
+
+A supplied formation walk becomes observer-visible only when its observer and audience layer match the cut, it has formed and become available by `known_at`, and its endpoint occurrence is already visible through the ordinary occurrence projection.
+
+```text
+formation walk != endpoint visibility
+formation walk != path inference
+formation walk != support
+formation walk != evidence
+formation walk != authority
+```
+
+`step_refs` are copied as opaque ordered formation data. 3rdi does not reconstruct missing steps, choose a shortest path, or infer a walk from an endpoint. Multiple attributable walks may lawfully terminate at the same endpoint.
+
+A withheld formation walk exposes only `id`, `endpoint_occurrence_id`, and a refusal reason. Hidden `step_refs` and `source_refs` do not enter the receipt and therefore cannot perturb that observer cut's `projection_digest`. Once a walk becomes visible, its supplied formation content becomes part of the observer-local receipt identity.
 
 ## Edge replay
 
@@ -89,4 +110,4 @@ For `all`, failure dominates unresolved. For `any`, success dominates unresolved
 
 ## Digest boundary
 
-`projection_digest` hashes the full receipt before the digest field is added. It provides replay identity, not truth, authority, or tamper-proof storage.
+`projection_digest` hashes the full observer-local receipt before the digest field is added. It provides replay identity, not truth, authority, or tamper-proof storage.

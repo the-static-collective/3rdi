@@ -1,0 +1,76 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "memento-handoff-001",
+  "occurrences": [
+    {
+      "id": "artifact",
+      "occurred_at": "2026-06-10T10:00:00Z",
+      "locus_id": "archive-room",
+      "source_refs": ["source:artifact"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "exposure-artifact-lumi",
+      "occurrence_id": "artifact",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-06-10T13:00:00Z",
+      "evidence_refs": ["source:artifact"]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "contact-artifact-lumi",
+      "occurrence_id": "artifact",
+      "observer": "lumi",
+      "layer": "private",
+      "sensed_at": "2026-06-10T13:05:00Z",
+      "evidence_refs": ["source:contact"]
+    }
+  ],
+  "attention_events": [
+    {
+      "id": "attention-artifact-lumi",
+      "contact_id": "contact-artifact-lumi",
+      "observer": "lumi",
+      "action": "attended",
+      "occurred_at": "2026-06-10T13:06:00Z",
+      "evidence_refs": ["source:attention"]
+    }
+  ],
+  "decoder_applications": [
+    {
+      "id": "decode-artifact-lumi",
+      "contact_id": "contact-artifact-lumi",
+      "observer": "lumi",
+      "decoder_ref": "decoder:ordinary-mystery",
+      "applied_at": "2026-06-10T13:07:00Z",
+      "projection_ref": "projection:artifact-v1",
+      "evidence_refs": ["source:decoder"]
+    }
+  ],
+  "stances": [
+    {
+      "id": "stance-artifact-lumi",
+      "observer": "lumi",
+      "projection_ref": "projection:artifact-v1",
+      "stance": "held",
+      "formed_at": "2026-06-10T13:08:00Z",
+      "evidence_refs": ["source:stance"]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "a1",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-06-10T14:00:00Z",
+      "known_at": "2026-06-10T14:00:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["archive-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    }
+  ]
+}
