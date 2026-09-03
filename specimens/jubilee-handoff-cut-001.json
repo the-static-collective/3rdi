@@ -1,0 +1,176 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "jubilee-handoff-cut-001",
+  "source_refs": [
+    "research:JUBILEE-ENGINE-LIGHTHOUSE-001"
+  ],
+  "occurrences": [
+    {
+      "id": "node-a",
+      "occurred_at": "2026-09-02T09:00:00Z",
+      "locus_id": "lighthouse-room",
+      "source_refs": ["source:node-a"]
+    },
+    {
+      "id": "node-b",
+      "occurred_at": "2026-09-02T09:00:00Z",
+      "locus_id": "lighthouse-room",
+      "source_refs": ["source:node-b"]
+    },
+    {
+      "id": "handoff-carrier",
+      "occurred_at": "2026-09-02T09:05:00Z",
+      "locus_id": "lighthouse-room",
+      "source_refs": ["source:handoff-carrier"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "node-a-lumi",
+      "occurrence_id": "node-a",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-09-02T09:30:00Z",
+      "evidence_refs": ["source:node-a"]
+    },
+    {
+      "id": "node-b-lumi",
+      "occurrence_id": "node-b",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-09-02T09:30:00Z",
+      "evidence_refs": ["source:node-b"]
+    },
+    {
+      "id": "handoff-carrier-lumi",
+      "occurrence_id": "handoff-carrier",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-09-02T11:00:00Z",
+      "evidence_refs": ["source:handoff-carrier"]
+    }
+  ],
+  "expectations": [],
+  "edges": [
+    {
+      "id": "handoff-a-b",
+      "from": "node-a",
+      "to": "node-b",
+      "edge_class": "relevance",
+      "relation": "candidate-handoff",
+      "first_perceived_at": "2026-09-02T10:00:00Z",
+      "discovery_trace": ["research:JUBILEE-ENGINE-LIGHTHOUSE-001"],
+      "assessments": [
+        {
+          "assessed_at": "2026-09-02T10:05:00Z",
+          "status": "admitted",
+          "confidence": 1.0,
+          "evidence_refs": ["research:JUBILEE-ENGINE-LIGHTHOUSE-001"],
+          "reason": "The frozen specimen declares the candidate handoff structurally present."
+        }
+      ]
+    }
+  ],
+  "edge_exposures": [
+    {
+      "id": "handoff-a-b-lumi",
+      "edge_id": "handoff-a-b",
+      "observer": "lumi",
+      "layer": "private",
+      "available_from": "2026-09-02T11:00:00Z",
+      "evidence_refs": ["source:handoff-edge-exposure"]
+    }
+  ],
+  "contacts": [
+    {
+      "id": "contact-handoff-lumi",
+      "occurrence_id": "handoff-carrier",
+      "observer": "lumi",
+      "layer": "private",
+      "sensed_at": "2026-09-02T12:00:00Z",
+      "evidence_refs": ["source:handoff-contact"]
+    }
+  ],
+  "attention_events": [
+    {
+      "id": "attention-handoff-lumi",
+      "contact_id": "contact-handoff-lumi",
+      "observer": "lumi",
+      "action": "attended",
+      "occurred_at": "2026-09-02T12:10:00Z",
+      "evidence_refs": ["source:handoff-attention"]
+    }
+  ],
+  "decoder_applications": [
+    {
+      "id": "decode-handoff-lumi",
+      "contact_id": "contact-handoff-lumi",
+      "observer": "lumi",
+      "decoder_ref": "decoder:little-yes-v0",
+      "applied_at": "2026-09-02T13:00:00Z",
+      "projection_ref": "projection:handoff-a-b-v0",
+      "evidence_refs": ["source:handoff-decoder"]
+    }
+  ],
+  "stances": [],
+  "location_decoders": [],
+  "location_claims": [],
+  "gates": [],
+  "cuts": [
+    {
+      "id": "structural-only",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-09-02T10:30:00Z",
+      "known_at": "2026-09-02T10:30:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lighthouse-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "available-not-attended",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-09-02T11:30:00Z",
+      "known_at": "2026-09-02T11:30:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lighthouse-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "attended-not-decoded",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-09-02T12:30:00Z",
+      "known_at": "2026-09-02T12:30:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lighthouse-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "decoded-not-taken",
+      "observer": "lumi",
+      "mode": "historical",
+      "focus_at": "2026-09-02T13:30:00Z",
+      "known_at": "2026-09-02T13:30:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lighthouse-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "reconstruction-after-decoding",
+      "observer": "lumi",
+      "mode": "reconstruction",
+      "focus_at": "2026-09-02T11:30:00Z",
+      "known_at": "2026-09-02T13:30:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lighthouse-room"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    }
+  ]
+}
