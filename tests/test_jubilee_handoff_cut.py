@@ -66,6 +66,22 @@ class JubileeHandoffCutTests(unittest.TestCase):
         self.assertEqual([item["id"] for item in decoder_trace], ["decode-handoff-lumi"])
         self.assertTrue(decoder_trace[0]["hindsight_bearing"])
 
+    def test_reverse_edge_availability_is_direction_local(self) -> None:
+        cut = compile_cut(self.field, "available-not-attended")
+        structural_edge_ids = {edge["id"] for edge in self.field["edges"]}
+        visible_edge_ids = {
+            edge["id"] for edge in cut["observer_view"]["edges"]["relevance"]
+        }
+
+        self.assertIn("handoff-a-b", structural_edge_ids)
+        self.assertIn("handoff-b-a", structural_edge_ids)
+        self.assertIn("handoff-a-b", visible_edge_ids)
+        self.assertNotIn("handoff-b-a", visible_edge_ids)
+        self.assertIn(
+            {"edge_id": "handoff-b-a", "reason": "not-available-to-observer"},
+            cut["audit"]["withheld_edges"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
