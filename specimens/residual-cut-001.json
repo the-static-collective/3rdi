@@ -62,7 +62,7 @@
     {
       "id": "p1-broken-after-disclosure",
       "observer": "observer-a",
-      "mode": "historical",
+      "mode": "reconstruction",
       "focus_at": "2026-09-07T14:10:00Z",
       "known_at": "2026-09-07T14:35:00Z",
       "audience_layers": ["private"],
