@@ -1,0 +1,90 @@
+from __future__ import annotations
+
+import json
+import sys
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPT_ROOT = ROOT / "skills" / "3rdi" / "scripts"
+sys.path.insert(0, str(SCRIPT_ROOT))
+
+from three_rdi import compile_cut  # noqa: E402
+
+
+SPECIMEN = ROOT / "specimens" / "residual-cut-001.json"
+
+
+def load_field() -> dict:
+    return json.loads(SPECIMEN.read_text(encoding="utf-8"))
+
+
+def visible_occurrence_ids(receipt: dict) -> list[str]:
+    return [item["id"] for item in receipt["observer_view"]["occurrences"]]
+
+
+def generator_value(occurrence: dict) -> int:
+    refs = [
+        ref
+        for ref in occurrence.get("source_refs", [])
+        if ref.startswith("generator:")
+    ]
+    if len(refs) != 1:
+        raise AssertionError(f"expected one generator receipt, got {refs!r}")
+    return int(refs[0].split(":", 1)[1])
+
+
+def projection_residual(receipt: dict) -> int:
+    return sum(generator_value(item) for item in receipt["observer_view"]["occurrences"])
+
+
+class ResidualCutTests(unittest.TestCase):
+    def test_later_disclosure_breaks_exact_under_projection(self) -> None:
+        field = load_field()
+        p0 = compile_cut(field, "p0-exact-under-projection")
+        p1 = compile_cut(field, "p1-broken-after-disclosure")
+
+        self.assertEqual(visible_occurrence_ids(p0), ["g-plus", "g-minus"])
+        self.assertEqual(projection_residual(p0), 0)
+        self.assertEqual(
+            visible_occurrence_ids(p1),
+            ["g-plus", "g-minus", "g-hidden-plus"],
+        )
+        self.assertEqual(projection_residual(p1), 1)
+
+        hidden = next(
+            item
+            for item in p1["observer_view"]["occurrences"]
+            if item["id"] == "g-hidden-plus"
+        )
+        self.assertTrue(hidden["hindsight_bearing"])
+        self.assertLess(hidden["occurred_at"], p0["cut"]["focus_at"])
+        self.assertGreater(hidden["available_via"]["available_from"], p0["cut"]["known_at"])
+
+    def test_richer_later_cut_does_not_rewrite_earlier_receipt(self) -> None:
+        field = load_field()
+        p0_before = compile_cut(field, "p0-exact-under-projection")
+        _ = compile_cut(field, "p1-broken-after-disclosure")
+        p0_replayed = compile_cut(field, "p0-exact-under-projection")
+
+        self.assertEqual(p0_replayed, p0_before)
+        self.assertEqual(projection_residual(p0_replayed), 0)
+        self.assertNotIn("g-hidden-plus", visible_occurrence_ids(p0_replayed))
+
+    def test_disclosure_changes_projection_not_anchored_occurrences(self) -> None:
+        field = load_field()
+        anchored_before = json.loads(json.dumps(field["occurrences"]))
+
+        _ = compile_cut(field, "p0-exact-under-projection")
+        _ = compile_cut(field, "p1-broken-after-disclosure")
+
+        self.assertEqual(field["occurrences"], anchored_before)
+        self.assertEqual(
+            [item["id"] for item in field["occurrences"]],
+            ["g-plus", "g-minus", "g-hidden-plus"],
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
