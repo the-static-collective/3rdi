@@ -45,11 +45,11 @@ class ResidualCutTests(unittest.TestCase):
         p0 = compile_cut(field, "p0-exact-under-projection")
         p1 = compile_cut(field, "p1-broken-after-disclosure")
 
-        self.assertEqual(visible_occurrence_ids(p0), ["g-plus", "g-minus"])
+        self.assertEqual(visible_occurrence_ids(p0), ["g-minus", "g-plus"])
         self.assertEqual(projection_residual(p0), 0)
         self.assertEqual(
             visible_occurrence_ids(p1),
-            ["g-plus", "g-minus", "g-hidden-plus"],
+            ["g-hidden-plus", "g-minus", "g-plus"],
         )
         self.assertEqual(projection_residual(p1), 1)
 
