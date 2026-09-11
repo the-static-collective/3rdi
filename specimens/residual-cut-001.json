@@ -19,6 +19,12 @@
       "occurred_at": "2026-09-07T14:02:00Z",
       "locus_id": "lab",
       "source_refs": ["source:g-hidden-plus", "generator:+1"]
+    },
+    {
+      "id": "g-hidden-minus",
+      "occurred_at": "2026-09-07T14:03:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-hidden-minus", "generator:-1"]
     }
   ],
   "exposures": [
@@ -45,6 +51,14 @@
       "layer": "private",
       "available_from": "2026-09-07T14:30:00Z",
       "evidence_refs": ["source:g-hidden-plus"]
+    },
+    {
+      "id": "exposure-g-hidden-minus",
+      "occurrence_id": "g-hidden-minus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:45:00Z",
+      "evidence_refs": ["source:g-hidden-minus"]
     }
   ],
   "cuts": [
@@ -65,6 +79,17 @@
       "mode": "reconstruction",
       "focus_at": "2026-09-07T14:10:00Z",
       "known_at": "2026-09-07T14:35:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "p2-restored-after-further-disclosure",
+      "observer": "observer-a",
+      "mode": "reconstruction",
+      "focus_at": "2026-09-07T14:10:00Z",
+      "known_at": "2026-09-07T14:50:00Z",
       "audience_layers": ["private"],
       "location_scope": ["lab"],
       "focus_occurrence_ids": [],
