@@ -62,6 +62,34 @@ class ResidualCutTests(unittest.TestCase):
         self.assertLess(hidden["occurred_at"], p0["cut"]["focus_at"])
         self.assertGreater(hidden["available_via"]["available_from"], p0["cut"]["known_at"])
 
+    def test_further_disclosure_can_restore_exactness_without_rewriting_prior_cuts(self) -> None:
+        field = load_field()
+        p0_before = compile_cut(field, "p0-exact-under-projection")
+        p1_before = compile_cut(field, "p1-broken-after-disclosure")
+        p2 = compile_cut(field, "p2-restored-after-further-disclosure")
+
+        self.assertEqual(
+            visible_occurrence_ids(p2),
+            ["g-hidden-minus", "g-hidden-plus", "g-minus", "g-plus"],
+        )
+        self.assertEqual(projection_residual(p2), 0)
+        self.assertEqual(compile_cut(field, "p0-exact-under-projection"), p0_before)
+        self.assertEqual(compile_cut(field, "p1-broken-after-disclosure"), p1_before)
+        self.assertEqual(projection_residual(p0_before), 0)
+        self.assertEqual(projection_residual(p1_before), 1)
+
+        hidden_minus = next(
+            item
+            for item in p2["observer_view"]["occurrences"]
+            if item["id"] == "g-hidden-minus"
+        )
+        self.assertTrue(hidden_minus["hindsight_bearing"])
+        self.assertLess(hidden_minus["occurred_at"], p0_before["cut"]["focus_at"])
+        self.assertGreater(
+            hidden_minus["available_via"]["available_from"],
+            p1_before["cut"]["known_at"],
+        )
+
     def test_richer_later_cut_does_not_rewrite_earlier_receipt(self) -> None:
         field = load_field()
         p0_before = compile_cut(field, "p0-exact-under-projection")
