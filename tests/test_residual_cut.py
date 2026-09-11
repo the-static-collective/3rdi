@@ -106,11 +106,12 @@ class ResidualCutTests(unittest.TestCase):
 
         _ = compile_cut(field, "p0-exact-under-projection")
         _ = compile_cut(field, "p1-broken-after-disclosure")
+        _ = compile_cut(field, "p2-restored-after-further-disclosure")
 
         self.assertEqual(field["occurrences"], anchored_before)
         self.assertEqual(
             [item["id"] for item in field["occurrences"]],
-            ["g-plus", "g-minus", "g-hidden-plus"],
+            ["g-plus", "g-minus", "g-hidden-plus", "g-hidden-minus"],
         )
 
 
