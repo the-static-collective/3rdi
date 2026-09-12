@@ -25,6 +25,12 @@
       "occurred_at": "2026-09-07T14:03:00Z",
       "locus_id": "lab",
       "source_refs": ["source:g-hidden-minus", "generator:-1"]
+    },
+    {
+      "id": "g-post-focus",
+      "occurred_at": "2026-09-07T14:20:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-post-focus", "generator:+9"]
     }
   ],
   "exposures": [
@@ -59,6 +65,14 @@
       "layer": "private",
       "available_from": "2026-09-07T14:45:00Z",
       "evidence_refs": ["source:g-hidden-minus"]
+    },
+    {
+      "id": "exposure-g-post-focus",
+      "occurrence_id": "g-post-focus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:25:00Z",
+      "evidence_refs": ["source:g-post-focus"]
     }
   ],
   "cuts": [

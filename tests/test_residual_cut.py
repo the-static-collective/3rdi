@@ -97,7 +97,7 @@ class ResidualCutTests(unittest.TestCase):
         self.assertNotIn("g-post-focus", visible_occurrence_ids(p2))
         post_focus = next(
             item
-            for item in p2["observer_view"]["withheld_occurrences"]
+            for item in p2["audit"]["withheld"]
             if item["occurrence_id"] == "g-post-focus"
         )
         self.assertEqual(post_focus["reason"], "future-occurrence")
@@ -126,7 +126,7 @@ class ResidualCutTests(unittest.TestCase):
         self.assertEqual(field["occurrences"], anchored_before)
         self.assertEqual(
             [item["id"] for item in field["occurrences"]],
-            ["g-plus", "g-minus", "g-hidden-plus", "g-hidden-minus"],
+            ["g-plus", "g-minus", "g-hidden-plus", "g-hidden-minus", "g-post-focus"],
         )
 
 
