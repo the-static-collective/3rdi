@@ -75,7 +75,7 @@ class ResidualCutTests(unittest.TestCase):
         self.assertEqual(focus["chronological_relation"], "present")
         self.assertEqual(focus["perceived_role"], "present")
         self.assertTrue(focus["available_at_cut"])
-        self.assertLess(
+        self.assertEqual(
             focus["available_via"]["available_from"],
             p0["cut"]["known_at"],
         )
