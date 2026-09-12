@@ -1,0 +1,71 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "successor-lift-001",
+  "occurrences": [
+    {
+      "id": "e0",
+      "occurred_at": "2026-09-07T15:00:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:e0"]
+    },
+    {
+      "id": "e1",
+      "occurred_at": "2026-09-07T15:10:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:e1"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "exposure-e0",
+      "occurrence_id": "e0",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T15:01:00Z",
+      "evidence_refs": ["source:e0"]
+    },
+    {
+      "id": "exposure-e1",
+      "occurrence_id": "e1",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T15:20:00Z",
+      "evidence_refs": ["source:e1"]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "before-successor",
+      "observer": "observer-a",
+      "mode": "historical",
+      "focus_at": "2026-09-07T15:05:00Z",
+      "known_at": "2026-09-07T15:05:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "after-successor-hidden",
+      "observer": "observer-a",
+      "mode": "historical",
+      "focus_at": "2026-09-07T15:15:00Z",
+      "known_at": "2026-09-07T15:15:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "after-successor-available",
+      "observer": "observer-a",
+      "mode": "historical",
+      "focus_at": "2026-09-07T15:25:00Z",
+      "known_at": "2026-09-07T15:25:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    }
+  ]
+}
