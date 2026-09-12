@@ -90,6 +90,21 @@ class ResidualCutTests(unittest.TestCase):
             p1_before["cut"]["known_at"],
         )
 
+    def test_later_knowledge_does_not_pull_post_focus_occurrence_backward(self) -> None:
+        field = load_field()
+        p2 = compile_cut(field, "p2-restored-after-further-disclosure")
+
+        self.assertNotIn("g-post-focus", visible_occurrence_ids(p2))
+        post_focus = next(
+            item
+            for item in p2["observer_view"]["withheld_occurrences"]
+            if item["occurrence_id"] == "g-post-focus"
+        )
+        self.assertEqual(post_focus["reason"], "future-occurrence")
+        self.assertEqual(post_focus["chronological_relation"], "future")
+        self.assertFalse(post_focus["available_at_cut"])
+        self.assertEqual(projection_residual(p2), 0)
+
     def test_richer_later_cut_does_not_rewrite_earlier_receipt(self) -> None:
         field = load_field()
         p0_before = compile_cut(field, "p0-exact-under-projection")
