@@ -45,11 +45,11 @@ class ResidualCutTests(unittest.TestCase):
         p0 = compile_cut(field, "p0-exact-under-projection")
         p1 = compile_cut(field, "p1-broken-after-disclosure")
 
-        self.assertEqual(visible_occurrence_ids(p0), ["g-minus", "g-plus"])
+        self.assertEqual(visible_occurrence_ids(p0), ["g-focus", "g-minus", "g-plus"])
         self.assertEqual(projection_residual(p0), 0)
         self.assertEqual(
             visible_occurrence_ids(p1),
-            ["g-hidden-plus", "g-minus", "g-plus"],
+            ["g-focus", "g-hidden-plus", "g-minus", "g-plus"],
         )
         self.assertEqual(projection_residual(p1), 1)
 
@@ -62,6 +62,27 @@ class ResidualCutTests(unittest.TestCase):
         self.assertLess(hidden["occurred_at"], p0["cut"]["focus_at"])
         self.assertGreater(hidden["available_via"]["available_from"], p0["cut"]["known_at"])
 
+    def test_focus_boundary_occurrence_is_present_not_hindsight(self) -> None:
+        field = load_field()
+        p0 = compile_cut(field, "p0-exact-under-projection")
+        focus = next(
+            item
+            for item in p0["observer_view"]["occurrences"]
+            if item["id"] == "g-focus"
+        )
+
+        self.assertEqual(focus["occurred_at"], p0["cut"]["focus_at"])
+        self.assertEqual(focus["chronological_relation"], "present")
+        self.assertEqual(focus["perceived_role"], "present")
+        self.assertTrue(focus["available_at_cut"])
+        self.assertLess(
+            focus["available_via"]["available_from"],
+            p0["cut"]["known_at"],
+        )
+        self.assertFalse(focus["hindsight_bearing"])
+        self.assertEqual(generator_value(focus), 0)
+        self.assertEqual(projection_residual(p0), 0)
+
     def test_further_disclosure_can_restore_exactness_without_rewriting_prior_cuts(self) -> None:
         field = load_field()
         p0_before = compile_cut(field, "p0-exact-under-projection")
@@ -70,7 +91,7 @@ class ResidualCutTests(unittest.TestCase):
 
         self.assertEqual(
             visible_occurrence_ids(p2),
-            ["g-hidden-minus", "g-hidden-plus", "g-minus", "g-plus"],
+            ["g-focus", "g-hidden-minus", "g-hidden-plus", "g-minus", "g-plus"],
         )
         self.assertEqual(projection_residual(p2), 0)
         self.assertEqual(compile_cut(field, "p0-exact-under-projection"), p0_before)
@@ -126,7 +147,14 @@ class ResidualCutTests(unittest.TestCase):
         self.assertEqual(field["occurrences"], anchored_before)
         self.assertEqual(
             [item["id"] for item in field["occurrences"]],
-            ["g-plus", "g-minus", "g-hidden-plus", "g-hidden-minus", "g-post-focus"],
+            [
+                "g-plus",
+                "g-minus",
+                "g-hidden-plus",
+                "g-hidden-minus",
+                "g-focus",
+                "g-post-focus",
+            ],
         )
 
 
