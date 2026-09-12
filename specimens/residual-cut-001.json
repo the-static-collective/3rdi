@@ -1,0 +1,141 @@
+{
+  "schema": "3rdi.field/v0",
+  "field_id": "residual-cut-001",
+  "occurrences": [
+    {
+      "id": "g-plus",
+      "occurred_at": "2026-09-07T14:00:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-plus", "generator:+1"]
+    },
+    {
+      "id": "g-minus",
+      "occurred_at": "2026-09-07T14:01:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-minus", "generator:-1"]
+    },
+    {
+      "id": "g-hidden-plus",
+      "occurred_at": "2026-09-07T14:02:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-hidden-plus", "generator:+1"]
+    },
+    {
+      "id": "g-hidden-minus",
+      "occurred_at": "2026-09-07T14:03:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-hidden-minus", "generator:-1"]
+    },
+    {
+      "id": "g-hidden-boundary",
+      "occurred_at": "2026-09-07T14:04:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-hidden-boundary", "generator:+0"]
+    },
+    {
+      "id": "g-focus",
+      "occurred_at": "2026-09-07T14:10:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-focus", "generator:+0"]
+    },
+    {
+      "id": "g-post-focus",
+      "occurred_at": "2026-09-07T14:20:00Z",
+      "locus_id": "lab",
+      "source_refs": ["source:g-post-focus", "generator:+9"]
+    }
+  ],
+  "exposures": [
+    {
+      "id": "exposure-g-plus",
+      "occurrence_id": "g-plus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:05:00Z",
+      "evidence_refs": ["source:g-plus"]
+    },
+    {
+      "id": "exposure-g-minus",
+      "occurrence_id": "g-minus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:05:00Z",
+      "evidence_refs": ["source:g-minus"]
+    },
+    {
+      "id": "exposure-g-hidden-plus",
+      "occurrence_id": "g-hidden-plus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:30:00Z",
+      "evidence_refs": ["source:g-hidden-plus"]
+    },
+    {
+      "id": "exposure-g-hidden-minus",
+      "occurrence_id": "g-hidden-minus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:45:00Z",
+      "evidence_refs": ["source:g-hidden-minus"]
+    },
+    {
+      "id": "exposure-g-hidden-boundary",
+      "occurrence_id": "g-hidden-boundary",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:35:00Z",
+      "evidence_refs": ["source:g-hidden-boundary"]
+    },
+    {
+      "id": "exposure-g-focus",
+      "occurrence_id": "g-focus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:10:00Z",
+      "evidence_refs": ["source:g-focus"]
+    },
+    {
+      "id": "exposure-g-post-focus",
+      "occurrence_id": "g-post-focus",
+      "observer": "observer-a",
+      "layer": "private",
+      "available_from": "2026-09-07T14:25:00Z",
+      "evidence_refs": ["source:g-post-focus"]
+    }
+  ],
+  "cuts": [
+    {
+      "id": "p0-exact-under-projection",
+      "observer": "observer-a",
+      "mode": "historical",
+      "focus_at": "2026-09-07T14:10:00Z",
+      "known_at": "2026-09-07T14:10:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "p1-broken-after-disclosure",
+      "observer": "observer-a",
+      "mode": "reconstruction",
+      "focus_at": "2026-09-07T14:10:00Z",
+      "known_at": "2026-09-07T14:35:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    },
+    {
+      "id": "p2-restored-after-further-disclosure",
+      "observer": "observer-a",
+      "mode": "reconstruction",
+      "focus_at": "2026-09-07T14:10:00Z",
+      "known_at": "2026-09-07T14:50:00Z",
+      "audience_layers": ["private"],
+      "location_scope": ["lab"],
+      "focus_occurrence_ids": [],
+      "gate_ids": []
+    }
+  ]
+}
