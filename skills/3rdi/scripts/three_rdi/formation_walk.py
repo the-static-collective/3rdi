@@ -53,8 +53,14 @@ def normalize_field(raw: Any) -> dict[str, Any]:
             raw_walk.get("available_from"),
             f"formation walk {walk_id}.available_from",
         )
-        parse_instant(formed_at, f"formation walk {walk_id}.formed_at")
-        parse_instant(available_from, f"formation walk {walk_id}.available_from")
+        formed = parse_instant(formed_at, f"formation walk {walk_id}.formed_at")
+        available = parse_instant(
+            available_from, f"formation walk {walk_id}.available_from"
+        )
+        if available < formed:
+            raise FieldError(
+                f"formation walk {walk_id}.available_from cannot precede formed_at"
+            )
         step_refs = list(
             _require_string_list(
                 raw_walk.get("step_refs"), f"formation walk {walk_id}.step_refs"
