@@ -28,6 +28,19 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         ):
             normalize_field(hostile)
 
+    def test_walk_cannot_form_before_its_endpoint_occurs(self) -> None:
+        field = json.loads(
+            (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
+        )
+        hostile = copy.deepcopy(field)
+        hostile["formation_walks"][0]["formed_at"] = "2026-08-31T10:02:00Z"
+        hostile["formation_walks"][0]["available_from"] = "2026-08-31T10:10:00Z"
+
+        with self.assertRaisesRegex(
+            FieldError, "formed_at cannot precede endpoint occurrence"
+        ):
+            normalize_field(hostile)
+
 
 if __name__ == "__main__":
     unittest.main()
