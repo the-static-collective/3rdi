@@ -24,7 +24,7 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         hostile["formation_walks"][0]["available_from"] = "2026-08-31T10:09:00Z"
 
         with self.assertRaisesRegex(
-            FieldError, "available_from precedes formed_at"
+            FieldError, "available_from cannot precede formed_at"
         ):
             normalize_field(hostile)
 
