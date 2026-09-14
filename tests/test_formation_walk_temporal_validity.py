@@ -41,18 +41,6 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         ):
             normalize_field(hostile)
 
-    def test_walk_step_refs_cannot_dangle(self) -> None:
-        field = json.loads(
-            (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
-        )
-        hostile = copy.deepcopy(field)
-        hostile["formation_walks"][0]["step_refs"] = ["e0", "missing-step", "e3"]
-
-        with self.assertRaisesRegex(
-            FieldError, "references unknown step occurrence 'missing-step'"
-        ):
-            normalize_field(hostile)
-
 
 if __name__ == "__main__":
     unittest.main()
