@@ -74,6 +74,11 @@ def normalize_field(raw: Any) -> dict[str, Any]:
                 raw_walk.get("step_refs"), f"formation walk {walk_id}.step_refs"
             )
         )
+        for step_ref in step_refs:
+            if step_ref not in occurrence_index:
+                raise FieldError(
+                    f"formation walk {walk_id} references unknown step occurrence {step_ref!r}"
+                )
         source_refs = sorted(
             _require_string_list(
                 raw_walk.get("source_refs"), f"formation walk {walk_id}.source_refs"
