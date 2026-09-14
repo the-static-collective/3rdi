@@ -41,6 +41,22 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         ):
             normalize_field(hostile)
 
+    def test_walk_may_form_exactly_when_endpoint_occurs(self) -> None:
+        field = json.loads(
+            (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
+        )
+        boundary = copy.deepcopy(field)
+        boundary["formation_walks"][0]["formed_at"] = "2026-08-31T10:03:00Z"
+        boundary["formation_walks"][0]["available_from"] = "2026-08-31T10:03:00Z"
+
+        normalized = normalize_field(boundary)
+        walk = next(
+            item for item in normalized["formation_walks"] if item["id"] == "walk-a"
+        )
+
+        self.assertEqual(walk["formed_at"], "2026-08-31T10:03:00Z")
+        self.assertEqual(walk["available_from"], "2026-08-31T10:03:00Z")
+
 
 if __name__ == "__main__":
     unittest.main()
