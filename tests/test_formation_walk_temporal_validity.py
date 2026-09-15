@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT_ROOT = ROOT / "skills" / "3rdi" / "scripts"
 sys.path.insert(0, str(SCRIPT_ROOT))
 
-from three_rdi import FieldError, normalize_field  # noqa: E402
+from three_rdi import FieldError, compile_cut, normalize_field  # noqa: E402
 
 
 class FormationWalkTemporalValidityTests(unittest.TestCase):
@@ -56,6 +56,32 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
 
         self.assertEqual(walk["formed_at"], "2026-08-31T10:03:00Z")
         self.assertEqual(walk["available_from"], "2026-08-31T10:03:00Z")
+
+    def test_later_walk_cannot_import_future_endpoint_into_historical_focus(self) -> None:
+        field = json.loads(
+            (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
+        )
+        hostile = copy.deepcopy(field)
+        cut = hostile["cuts"][0]
+        cut["focus_at"] = "2026-08-31T10:02:00Z"
+        cut["known_at"] = "2026-08-31T10:20:00Z"
+
+        walk = hostile["formation_walks"][0]
+        walk["formed_at"] = "2026-08-31T10:04:00Z"
+        walk["available_from"] = "2026-08-31T10:04:00Z"
+
+        receipt = compile_cut(hostile, cut["id"])
+
+        self.assertNotIn(
+            walk["id"],
+            {item["id"] for item in receipt["observer_view"]["formation_walks"]},
+        )
+        withheld = next(
+            item
+            for item in receipt["audit"]["withheld_formation_walks"]
+            if item["id"] == walk["id"]
+        )
+        self.assertEqual(withheld["reason"], "endpoint-withheld")
 
 
 if __name__ == "__main__":
