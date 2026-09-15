@@ -63,16 +63,40 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         )
         hostile = copy.deepcopy(field)
         cut = hostile["cuts"][0]
-        cut["focus_at"] = "2026-08-31T10:02:00Z"
-        cut["known_at"] = "2026-08-31T10:20:00Z"
-        cut["focus_occurrence_ids"] = ["e2"]
+        cut["known_at"] = "2026-08-31T10:40:00Z"
 
+        # Keep the canonical historical focus untouched and introduce one
+        # isolated post-focus endpoint. This avoids changing the cut's own
+        # focus witness while exercising the composition boundary directly.
+        hostile["occurrences"].append(
+            {
+                "id": "e-future",
+                "occurred_at": "2026-08-31T10:30:00Z",
+                "locus_id": "lab",
+                "source_refs": ["source:e-future"],
+            }
+        )
+        hostile["exposures"].append(
+            {
+                "id": "exposure-e-future",
+                "occurrence_id": "e-future",
+                "observer": "observer-a",
+                "layer": "private",
+                "available_from": "2026-08-31T10:31:00Z",
+                "evidence_refs": ["source:e-future"],
+            }
+        )
         walk = hostile["formation_walks"][0]
-        walk["formed_at"] = "2026-08-31T10:04:00Z"
-        walk["available_from"] = "2026-08-31T10:04:00Z"
+        walk["endpoint_occurrence_id"] = "e-future"
+        walk["formed_at"] = "2026-08-31T10:31:00Z"
+        walk["available_from"] = "2026-08-31T10:31:00Z"
 
         receipt = compile_cut(hostile, cut["id"])
 
+        self.assertNotIn(
+            "e-future",
+            {item["id"] for item in receipt["observer_view"]["occurrences"]},
+        )
         self.assertNotIn(
             walk["id"],
             {item["id"] for item in receipt["observer_view"]["formation_walks"]},
