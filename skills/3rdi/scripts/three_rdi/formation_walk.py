@@ -29,7 +29,7 @@ def normalize_field(raw: Any) -> dict[str, Any]:
         _require_mapping(walk, f"field.formation_walks[{index}]")
 
     field = _normalize_prior_field(raw_field)
-    occurrence_ids = {item["id"] for item in field["occurrences"]}
+    occurrence_index = {item["id"]: item for item in field["occurrences"]}
     walk_index = _index_unique(walks, "field.formation_walks")
     normalized_walks: list[dict[str, Any]] = []
 
@@ -38,7 +38,7 @@ def normalize_field(raw: Any) -> dict[str, Any]:
             raw_walk.get("endpoint_occurrence_id"),
             f"formation walk {walk_id}.endpoint_occurrence_id",
         )
-        if endpoint not in occurrence_ids:
+        if endpoint not in occurrence_index:
             raise FieldError(
                 f"formation walk {walk_id} references unknown endpoint occurrence {endpoint!r}"
             )
@@ -53,8 +53,22 @@ def normalize_field(raw: Any) -> dict[str, Any]:
             raw_walk.get("available_from"),
             f"formation walk {walk_id}.available_from",
         )
-        parse_instant(formed_at, f"formation walk {walk_id}.formed_at")
-        parse_instant(available_from, f"formation walk {walk_id}.available_from")
+        formed = parse_instant(formed_at, f"formation walk {walk_id}.formed_at")
+        endpoint_occurred = parse_instant(
+            occurrence_index[endpoint]["occurred_at"],
+            f"occurrence {endpoint}.occurred_at",
+        )
+        if formed < endpoint_occurred:
+            raise FieldError(
+                f"formation walk {walk_id}.formed_at cannot precede endpoint occurrence"
+            )
+        available = parse_instant(
+            available_from, f"formation walk {walk_id}.available_from"
+        )
+        if available < formed:
+            raise FieldError(
+                f"formation walk {walk_id}.available_from cannot precede formed_at"
+            )
         step_refs = list(
             _require_string_list(
                 raw_walk.get("step_refs"), f"formation walk {walk_id}.step_refs"
