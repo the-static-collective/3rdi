@@ -65,6 +65,7 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         cut = hostile["cuts"][0]
         cut["focus_at"] = "2026-08-31T10:02:00Z"
         cut["known_at"] = "2026-08-31T10:20:00Z"
+        cut["focus_occurrence_ids"] = ["e2"]
 
         walk = hostile["formation_walks"][0]
         walk["formed_at"] = "2026-08-31T10:04:00Z"
