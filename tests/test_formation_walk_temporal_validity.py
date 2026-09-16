@@ -57,17 +57,20 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         self.assertEqual(walk["formed_at"], "2026-08-31T10:03:00Z")
         self.assertEqual(walk["available_from"], "2026-08-31T10:03:00Z")
 
-    def test_later_walk_cannot_import_future_endpoint_into_historical_focus(self) -> None:
+    def test_later_walk_cannot_import_future_endpoint_into_reconstructed_focus(self) -> None:
         field = json.loads(
             (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
         )
         hostile = copy.deepcopy(field)
         cut = hostile["cuts"][0]
+        # Reconstruction is the lawful mode for a knowledge horizon later than
+        # the frozen focus. Historical mode intentionally requires known_at <= focus_at.
+        cut["mode"] = "reconstruction"
         cut["known_at"] = "2026-08-31T10:40:00Z"
 
-        # Keep the canonical historical focus untouched and introduce one
-        # isolated post-focus endpoint. This avoids changing the cut's own
-        # focus witness while exercising the composition boundary directly.
+        # Keep the canonical focus untouched and introduce one isolated
+        # post-focus endpoint. Later knowledge may know the walk, but cannot
+        # turn a post-focus occurrence into part of the reconstructed focus.
         hostile["occurrences"].append(
             {
                 "id": "e-future",
