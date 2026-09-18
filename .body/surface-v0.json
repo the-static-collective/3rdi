@@ -1,0 +1,83 @@
+{
+  "schema": "body.surface/v0",
+  "organ": "3rdi",
+  "owner": "the-static-collective/3rdi",
+  "publication": {
+    "status": "owner-published",
+    "standard": "static-collective/body-surface/v0",
+    "scope": "interface-declaration"
+  },
+  "provides": [
+    {
+      "kind": "current-organ-manifest",
+      "protocol": "static-collective/current-organ",
+      "version": "v0"
+    },
+    {
+      "kind": "observer-projection",
+      "protocol": "3rdi.field",
+      "version": "v0"
+    }
+  ],
+  "needs": [],
+  "interfaces": [
+    {
+      "name": "current-organ",
+      "direction": "emit",
+      "kind": "current-organ-manifest",
+      "protocol": "static-collective/current-organ",
+      "version": "v0"
+    },
+    {
+      "name": "projection-out",
+      "direction": "emit",
+      "kind": "observer-projection",
+      "protocol": "3rdi.field",
+      "version": "v0"
+    }
+  ],
+  "measure": {
+    "declared": [
+      {
+        "dimension": "projection-schema",
+        "value": "3rdi.field/v0",
+        "unit": "protocol"
+      },
+      {
+        "dimension": "effect-class",
+        "value": "projection-only",
+        "unit": "class"
+      }
+    ],
+    "observed": []
+  },
+  "receipts": [
+    {
+      "kind": "owner-contract",
+      "coordinate": "README.md"
+    },
+    {
+      "kind": "current-organ",
+      "coordinate": ".live/current-organ.json"
+    }
+  ],
+  "residual_fog": [
+    "This surface does not claim a consumer for 3rdi.field/v0; BODY-PULSE must discover that from neighboring owner surfaces."
+  ],
+  "non_authorities": [
+    "projection != source",
+    "projection != authority",
+    "compatibility != causal relevance"
+  ],
+  "evidence": [
+    {
+      "kind": "owner-readme",
+      "coordinate": "README.md"
+    },
+    {
+      "kind": "current-organ",
+      "coordinate": ".live/current-organ.json"
+    }
+  ],
+  "authority": "none"
+}
