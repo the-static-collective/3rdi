@@ -111,6 +111,37 @@ class FormationWalkTemporalValidityTests(unittest.TestCase):
         )
         self.assertEqual(withheld["reason"], "endpoint-withheld")
 
+    def test_reconstruction_may_expose_later_known_walk_to_pre_focus_endpoint(self) -> None:
+        field = json.loads(
+            (ROOT / "specimens" / "walk-receipt-projection-001.json").read_text()
+        )
+        reconstructed = copy.deepcopy(field)
+        cut = reconstructed["cuts"][0]
+        cut["mode"] = "reconstruction"
+        cut["known_at"] = "2026-08-31T10:15:00Z"
+
+        walk = reconstructed["formation_walks"][0]
+        self.assertEqual(walk["endpoint_occurrence_id"], "e3")
+        self.assertLess(walk["formed_at"], cut["focus_at"])
+        self.assertGreater(walk["available_from"], cut["focus_at"])
+        self.assertLessEqual(walk["available_from"], cut["known_at"])
+
+        receipt = compile_cut(reconstructed, cut["id"])
+        visible = next(
+            item
+            for item in receipt["observer_view"]["formation_walks"]
+            if item["id"] == walk["id"]
+        )
+
+        self.assertIn(
+            "e3", {item["id"] for item in receipt["observer_view"]["occurrences"]}
+        )
+        self.assertTrue(visible["hindsight_bearing"])
+        self.assertNotIn(
+            walk["id"],
+            {item["id"] for item in receipt["audit"]["withheld_formation_walks"]},
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
