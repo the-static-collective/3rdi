@@ -1,0 +1,15 @@
+{
+  "schema": "3rdi.glyph-transition-field/v0",
+  "field_id": "glyph-transition-y-point-l-u-001",
+  "source_refs": ["owner-seeds-2026-10-12:Y-to-point,L-to-U", "3rdi-glyphtrace-y-001"],
+  "carriers": {
+    "Y": {"kind": "normalized-landmarks", "landmarks": {"L": [-1, 1], "J": [0, 0], "R": [1, 1], "B": [0, -1]}, "segments": [["L", "J"], ["J", "R"], ["J", "B"]]},
+    "DOT": {"kind": "normalized-landmarks", "landmarks": {"P": [0, 0]}, "segments": []},
+    "L": {"kind": "normalized-landmarks", "landmarks": {"A": [-1, 1], "B": [-1, -1], "C": [1, -1]}, "segments": [["A", "B"], ["B", "C"]]},
+    "U": {"kind": "normalized-landmarks", "landmarks": {"A": [-1, 1], "B": [-1, -1], "C": [1, -1], "D": [1, 1]}, "segments": [["A", "B"], ["B", "C"], ["C", "D"]]}
+  },
+  "transitions": [
+    {"id": "y-to-point", "kind": "QUOTIENT", "from": "Y", "to": "DOT", "vertex_map": {"L": "P", "J": "P", "R": "P", "B": "P"}},
+    {"id": "l-to-u", "kind": "DEFORM", "from": "L", "to": "U", "endpoint_map": {"A": "A", "C": "D"}}
+  ]
+}
